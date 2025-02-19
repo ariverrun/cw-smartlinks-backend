@@ -51,3 +51,14 @@ db_diff: #generate new database migration
 
 db_migrate: #execute database migrations
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:migrations:migrate --no-interaction
+
+
+##################
+## CS-Fixer
+##################
+
+cs_check:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/php-cs-fixer fix --dry-run
+
+cs_fix:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/php-cs-fixer fix
