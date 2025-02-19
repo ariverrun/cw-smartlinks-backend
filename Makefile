@@ -62,3 +62,12 @@ cs_check:
 
 cs_fix:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/php-cs-fixer fix
+
+
+##################
+## Cache
+##################
+cache_clear:
+	${DOCKER_COMPOSE_PHP_EXEC} rm -Rf var/cache/*
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear --env=test

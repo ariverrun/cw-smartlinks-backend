@@ -25,12 +25,10 @@ final class InputUrlAndRouteStepsApiController extends AbstractController
         InputUrlAndRouteStepsCreateRequestDto $requestDto,
         CreateInputUrlAndRouteStepsUseCaseInterface $useCase,
     ): JsonResponse {
-        $inputUrlId = ($useCase)(
-            $this->autoMapper->map($requestDto, InputUrlAndRouteStepsDto::class)
-        );
-
         return $this->json([
-            'id' => $inputUrlId,
+            'id' => ($useCase)(
+                $this->autoMapper->map($requestDto, InputUrlAndRouteStepsDto::class)
+            ),
         ]);
     }
 }

@@ -3,3 +3,10 @@ controllers:
         path: ../src/UI/Http/Controller/
         namespace: App\UI\Http\Controller
     type: attribute
+
+
+fallback_route:
+    path: /{path}
+    controller: App\UI\Http\Controller\Redirection\RedirectController::__invoke
+    requirements:
+        path: ".+"
