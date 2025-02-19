@@ -14,7 +14,7 @@ final class InputUrlAndRouteStepsCreateRequestDto
         public readonly string $urlPattern,
         public readonly int $priority,
         public readonly bool $isActive,
-        public readonly RouteStepRequestDtoPartial $initialRouteStep,
+        public readonly RouteStepRequestNestedDto $initialRouteStep,
     ) {
     }
 }

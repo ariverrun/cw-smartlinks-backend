@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InputUrlRepositoryInterface::class)]
+#[ORM\UniqueConstraint(columns: ['url_pattern'])]
 final class InputUrl
 {
     public const DEFAULT_PRIORITY = 0;
@@ -19,13 +20,13 @@ final class InputUrl
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: RouteStep::class, fetch: 'LAZY')]
+    #[ORM\OneToOne(targetEntity: RouteStep::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private RouteStep $initialRouteStep;
 
     /**
      * @var Collection<int, RouteStep> $routeSteps
      */
-    #[ORM\OneToMany(targetEntity: RouteStep::class, mappedBy: 'inputUrl')]
+    #[ORM\OneToMany(targetEntity: RouteStep::class, mappedBy: 'inputUrl', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $routeSteps;
 
     public function __construct(

@@ -9,4 +9,6 @@ use App\Domain\Entity\InputUrl;
 interface InputUrlRepositoryInterface
 {
     public function findOneById(int $inputUrlId): ?InputUrl;
+
+    public function save(InputUrl $inputUrl): void;
 }

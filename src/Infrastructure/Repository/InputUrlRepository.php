@@ -25,4 +25,12 @@ final class InputUrlRepository extends ServiceEntityRepository implements InputU
 
         return $inputUrl;
     }
+
+    public function save(InputUrl $inputUrl): void
+    {
+        $entityManager = $this->getEntityManager();
+
+        $entityManager->persist($inputUrl);
+        $entityManager->flush();
+    }
 }

@@ -24,9 +24,10 @@ class RouteStep
     #[ORM\Column]
     protected ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: InputUrl::class, cascade: ['persist', 'remove'], inversedBy: 'routeSteps')]
+    #[ORM\ManyToOne(targetEntity: InputUrl::class, inversedBy: 'routeSteps')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     protected ?InputUrl $inputUrl;
-    
+
     #[ORM\OneToOne(targetEntity: RouteStep::class)]
     protected ?RouteStep $onPassStep = null;   
 

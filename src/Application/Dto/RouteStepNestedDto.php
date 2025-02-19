@@ -6,20 +6,22 @@ namespace App\Application\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class RouteStepNestedDto
+final readonly class RouteStepNestedDto
 {
     public function __construct(
-        public readonly ?RouteStepNestedDto $onPassStep,
-        public readonly ?RouteStepNestedDto $onDeclineStep,
+        public ?RouteStepNestedDto $onPassStep,
+        public ?RouteStepNestedDto $onDeclineStep,
         #[Assert\NotBlank]
-        public readonly string $schemeType,
+        public string $type,        
+        #[Assert\NotBlank]
+        public string $schemeType,
         #[Assert\Type('array')]
         #[Assert\All(
             constraints: [
                 new Assert\Type('string')
             ]
         )]
-        public readonly array $schemeProps,
+        public array $schemeProps,
     ) {
     }
 }

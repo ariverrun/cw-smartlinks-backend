@@ -6,11 +6,13 @@ namespace App\UI\Http\Controller\Api;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class RouteStepRequestDtoPartial
+final class RouteStepRequestNestedDto
 {
     public function __construct(
-        public readonly ?RouteStepRequestDtoPartial $onPassStep,
-        public readonly ?RouteStepRequestDtoPartial $onDeclineStep,
+        public readonly ?RouteStepRequestNestedDto $onPassStep,
+        public readonly ?RouteStepRequestNestedDto $onDeclineStep,
+        #[Assert\NotBlank]
+        public readonly string $type,        
         #[Assert\NotBlank]
         public readonly string $schemeType,
         #[Assert\Type('array')]
