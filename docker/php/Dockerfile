@@ -3,13 +3,13 @@ ARG PHP_VERSION=8.3
 FROM php:${PHP_VERSION:-8.3}-fpm
 
 RUN apt-get update \
-    && apt-get install -y make libyaml-dev yamllint libpq-dev \
+    && apt-get install -y make libyaml-dev yamllint libpq-dev libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install \
-    pdo_pgsql pgsql
+    pdo_pgsql pgsql intl
 
-RUN pecl install apcu yaml redis && docker-php-ext-enable yaml apcu redis
+RUN pecl install apcu yaml redis && docker-php-ext-enable yaml apcu redis intl
 
 ENV PHP_VERSION=${PHP_VERSION}
 

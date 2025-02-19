@@ -41,5 +41,9 @@ services:
         arguments:
             $autoMapper: '@app.auto_mapper.with_validation'
 
+    App\UI\Http\Controller\Redirection\RedirectController:
+        arguments:
+            $autoMapper: '@app.auto_mapper.with_validation'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
