@@ -9,13 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @phpstan-type SchemeProps array<string,mixed>
  */
-
 #[ORM\Entity]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
 #[ORM\DiscriminatorMap([
-    'condition' => Condition::class, 
-    'redirect' => Redirect::class, 
+    'condition' => Condition::class,
+    'redirect' => Redirect::class,
 ])]
 class RouteStep
 {
@@ -25,11 +24,11 @@ class RouteStep
     protected ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: InputUrl::class, inversedBy: 'routeSteps')]
-    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?InputUrl $inputUrl;
 
     #[ORM\OneToOne(targetEntity: RouteStep::class)]
-    protected ?RouteStep $onPassStep = null;   
+    protected ?RouteStep $onPassStep = null;
 
     #[ORM\OneToOne(targetEntity: RouteStep::class)]
     protected ?RouteStep $onDeclineStep = null;
@@ -43,7 +42,9 @@ class RouteStep
     #[ORM\Column]
     protected array $schemeProps;
 
-    final public function __construct() {}
+    final public function __construct()
+    {
+    }
 
     final public function getId(): ?int
     {

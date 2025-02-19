@@ -20,7 +20,7 @@ final class CreateInputUrlAndRouteStepsUseCase implements CreateInputUrlAndRoute
     public function __invoke(InputUrlAndRouteStepsDto $dto): int
     {
         $inputUrl = new InputUrl($dto->urlPattern, $dto->priority, $dto->isActive);
-    
+
         $inputUrl->setInitialRouteStep(
             $this->routeStepFactory->createRouteStep($dto->initialRouteStep, $inputUrl),
         );

@@ -13,16 +13,16 @@ class Redirect extends RouteStep
 {
     /**
      * @throws InvalidEntityException
-     */    
+     */
     #[ORM\PrePersist]
-    #[ORM\PreUpdate]    
+    #[ORM\PreUpdate]
     public function validate(): void
     {
         if (
-            null !== $this->onPassStep ||
-            null !== $this->onDeclineStep
+            null !== $this->onPassStep
+            || null !== $this->onDeclineStep
         ) {
             throw new InvalidEntityException('Redirect entity can not have onPassStep or onDeclineStep');
-        }       
+        }
     }
 }

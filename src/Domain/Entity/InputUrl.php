@@ -43,7 +43,7 @@ final class InputUrl
     public function getId(): ?int
     {
         return $this->id;
-    }   
+    }
 
     public function getUrlPattern(): string
     {
@@ -108,7 +108,7 @@ final class InputUrl
         }
 
         return $this;
-    }    
+    }
 
     public function isActive(): bool
     {

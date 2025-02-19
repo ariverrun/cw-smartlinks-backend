@@ -14,9 +14,9 @@ class ValidatingAutoMapperDecorator implements AutoMapperInterface
         private readonly AutoMapperInterface $autoMapper,
         private readonly ValidatorInterface $validator,
     ) {
-    }    
+    }
 
-    public function map(array|object $source, string|array|object $target): array|object|null
+    public function map(array | object $source, string | array | object $target): array | object | null
     {
         $mappedTarget = $this->autoMapper->map($source, $target);
 

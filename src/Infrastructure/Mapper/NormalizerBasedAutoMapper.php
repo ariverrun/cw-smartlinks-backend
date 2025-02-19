@@ -16,10 +16,10 @@ class NormalizerBasedAutoMapper implements AutoMapperInterface
     ) {
     }
 
-    public function map(array|object $source, string|array|object $target): array|object|null
+    public function map(array | object $source, string | array | object $target): array | object | null
     {
         $arrayData = $this->normalizer->normalize($source);
-        
+
         $mappedTarget = $this->normalizer->denormalize($arrayData, $target);
 
         return $mappedTarget;
