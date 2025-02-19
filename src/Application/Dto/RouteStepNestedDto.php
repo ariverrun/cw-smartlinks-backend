@@ -12,13 +12,13 @@ final readonly class RouteStepNestedDto
         public ?RouteStepNestedDto $onPassStep,
         public ?RouteStepNestedDto $onDeclineStep,
         #[Assert\NotBlank]
-        public string $type,        
+        public string $type,
         #[Assert\NotBlank]
         public string $schemeType,
         #[Assert\Type('array')]
         #[Assert\All(
             constraints: [
-                new Assert\Type('string')
+                new Assert\Type('string'),
             ]
         )]
         public array $schemeProps,

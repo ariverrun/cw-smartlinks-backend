@@ -16,7 +16,7 @@ class RecursiveRouteStepFactory implements RouteStepFactoryInterface
         private readonly RouteStepClassRegistryInterface $routeStepClassRegistry,
     ) {
     }
-    
+
     public function createRouteStep(RouteStepNestedDto $dto, InputUrl $inputUrl): RouteStep
     {
         /** @var class-string<RouteStep> $routeStepClass */

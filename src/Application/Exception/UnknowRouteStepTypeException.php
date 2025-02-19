@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Application\Exception;
 
-use \RuntimeException;
+use RuntimeException;
 
 class UnknowRouteStepTypeException extends RuntimeException
 {
-
 }

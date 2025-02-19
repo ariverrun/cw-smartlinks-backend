@@ -6,5 +6,5 @@ namespace App\Application\Service\Mapper;
 
 interface AutoMapperInterface
 {
-    public function map(array|object $source, string|array|object $target): array|object|null;
+    public function map(array | object $source, string | array | object $target): array | object | null;
 }

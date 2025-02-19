@@ -19,8 +19,8 @@ class Condition extends RouteStep
     public function validate(): void
     {
         if (
-            null === $this->onPassStep ||
-            null === $this->onDeclineStep
+            null === $this->onPassStep
+            || null === $this->onDeclineStep
         ) {
             throw new InvalidEntityException('Condition entity has to have both onPassStep and onDeclineStep');
         }

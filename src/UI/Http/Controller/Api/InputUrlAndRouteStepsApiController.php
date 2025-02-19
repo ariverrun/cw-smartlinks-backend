@@ -21,12 +21,14 @@ final class InputUrlAndRouteStepsApiController extends AbstractController
 
     #[Route('/api/input_and_route_steps', methods: ['POST'], name: 'app_api_input_and_route_steps_create')]
     public function create(
-        #[MapRequestPayload] InputUrlAndRouteStepsCreateRequestDto $requestDto,
+        #[MapRequestPayload]
+        InputUrlAndRouteStepsCreateRequestDto $requestDto,
         CreateInputUrlAndRouteStepsUseCaseInterface $useCase,
     ): JsonResponse {
         $inputUrlId = ($useCase)(
             $this->autoMapper->map($requestDto, InputUrlAndRouteStepsDto::class)
         );
+
         return $this->json([
             'id' => $inputUrlId,
         ]);
