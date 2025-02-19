@@ -67,7 +67,25 @@ cs_fix:
 ##################
 ## Cache
 ##################
+
 cache_clear:
 	${DOCKER_COMPOSE_PHP_EXEC} rm -Rf var/cache/*
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear --env=test
+
+
+##################
+## Install dependecies via composer
+##################
+
+composer_install:
+	${DOCKER_COMPOSE_PHP_EXEC} composer install -n
+
+
+##################
+## Analyze layers structure
+##################
+
+
+deptrac:
+	vendor/bin/deptrac analyse
