@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ValueResolver;
 
-use App\UI\Http\Controller\Redirection\RequestForRedirectDto;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\HttpKernel\Attribute\AsTargetedValueResolver;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 
+#[AsTargetedValueResolver('request_for_redirect')]
 final class RequestForRedirectValueResovler implements ValueResolverInterface
 {
     public function __construct(
@@ -24,20 +25,14 @@ final class RequestForRedirectValueResovler implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
-        $argumentType = $argument->getType();
-
-        if (RequestForRedirectDto::class !== $argumentType) {
-            return [];
-        }
-
         $requestData = $this->collectRequestData($request);
 
-        $argumentDto = $this->denormalizer->denormalize($requestData, RequestForRedirectDto::class);
+        $argumentDto = $this->denormalizer->denormalize($requestData, $argument->getType());
 
         $violationsList = $this->validator->validate($argumentDto);
 
         if ($violationsList->count() > 0) {
-            throw new InvalidArgumentException(\sprintf('Request can not be resolved to %s', RequestForRedirectDto::class));
+            throw new InvalidArgumentException(\sprintf('Request can not be resolved to %s', $argument->getType()));
         }
 
         return [$argumentDto];

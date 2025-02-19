@@ -1,0 +1,40 @@
+deptrac:
+    paths:
+        - ./src
+    exclude_files:
+        - '#.*test.*#'
+    layers:
+        -
+            name: Domain
+            collectors:
+                -
+                    type: directory
+                    value: /src/Domain/.*
+        -
+            name: Application
+            collectors:
+                -
+                    type: directory
+                    value: /src/Application/.*
+        -
+            name: Infrastructure
+            collectors:
+                -
+                    type: directory
+                    value: /src/Infrastructure/.*
+
+        -
+            name: UI
+            collectors:
+                -
+                    type: directory
+                    value: /src/UI/.*
+    ruleset:
+        Domain:
+        Application:
+            - Domain
+        Infrastructure:
+            - Domain
+            - Application
+        UI:
+            - Application
