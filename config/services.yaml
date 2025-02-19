@@ -16,9 +16,30 @@ services:
     App\:
         resource: '../src/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Domain/Entity/'
             - '../src/Kernel.php'
+
+    App\Infrastructure\Service\Registry\RouteStepClassRegistry:
+        arguments:
+            $classesByAlias:
+                redirect: App\Domain\Entity\Redirect
+                condition: App\Domain\Entity\Condition
+
+    App\Infrastructure\Service\Registry\RouteStepSchemeClassRegistry:
+        arguments:
+            $classesByAlias:
+                redirect.redirect: 'App\Application\RouteStepScheme\Redirect\RedirectScheme'
+                condition.datetime_range: 'App\Application\RouteStepScheme\Condition\DateTimeRangeConditionScheme'
+
+
+    app.auto_mapper.with_validation:
+        class: App\Infrastructure\Mapper\ValidatingAutoMapperDecorator
+        arguments:
+            $autoMapper: '@App\Infrastructure\Mapper\NormalizerBasedAutoMapper'
+
+    App\UI\Http\Controller\Api\InputUrlAndRouteStepsApiController:
+        arguments:
+            $autoMapper: '@app.auto_mapper.with_validation'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
