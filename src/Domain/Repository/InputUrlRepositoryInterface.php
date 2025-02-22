@@ -11,4 +11,14 @@ interface InputUrlRepositoryInterface
     public function findOneById(int $inputUrlId): ?InputUrl;
 
     public function save(InputUrl $inputUrl): void;
+
+    /**
+     * @return InputUrl[]
+     */
+    public function findAll(): array;
+
+    /**
+     * @return InputUrl[]
+     */
+    public function findAllActiveDescByPriority(): array;
 }
