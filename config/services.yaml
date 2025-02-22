@@ -19,17 +19,17 @@ services:
             - '../src/Domain/Entity/'
             - '../src/Kernel.php'
 
-    App\Infrastructure\Service\Registry\RouteStepClassRegistry:
+    App\Infrastructure\Service\Registry\RoutingStepClassRegistry:
         arguments:
             $classesByAlias:
                 redirect: App\Domain\Entity\Redirect
                 condition: App\Domain\Entity\Condition
 
-    App\Infrastructure\Service\Registry\RouteStepSchemeClassRegistry:
+    App\Infrastructure\Service\Registry\RoutingStepSchemeClassRegistry:
         arguments:
             $classesByAlias:
-                redirect.redirect: 'App\Application\RouteStepScheme\Redirect\RedirectScheme'
-                condition.datetime_range: 'App\Application\RouteStepScheme\Condition\DateTimeRangeConditionScheme'
+                redirect.redirect: 'App\Application\RoutingStepScheme\Redirect\RedirectScheme'
+                condition.datetime_range: 'App\Application\RoutingStepScheme\Condition\DateTimeRangeConditionScheme'
 
 
     app.auto_mapper.with_validation:
@@ -37,7 +37,7 @@ services:
         arguments:
             $autoMapper: '@App\Infrastructure\Mapper\NormalizerBasedAutoMapper'
 
-    App\UI\Http\Controller\Api\InputUrlAndRouteStepsApiController:
+    App\UI\Http\Controller\Api\RouteApiController:
         arguments:
             $autoMapper: '@app.auto_mapper.with_validation'
 

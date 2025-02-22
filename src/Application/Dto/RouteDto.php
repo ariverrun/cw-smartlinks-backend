@@ -6,7 +6,7 @@ namespace App\Application\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class InputUrlAndRouteStepsDto
+final readonly class RouteDto
 {
     public function __construct(
         public ?int $id,
@@ -15,7 +15,7 @@ final readonly class InputUrlAndRouteStepsDto
         public string $urlPattern,
         public int $priority,
         public bool $isActive,
-        public RouteStepNestedDto $initialRouteStep,
+        public RoutingStepNestedDto $initialStep,
     ) {
     }
 }

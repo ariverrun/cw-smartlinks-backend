@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
-class Condition extends RouteStep
+class Condition extends RoutingStep
 {
     /**
      * @throws InvalidEntityException

@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Dto;
+namespace App\UI\Http\Controller\Api;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class RouteStepNestedDto
+final class RoutingStepRequestNestedDto
 {
     public function __construct(
-        public ?RouteStepNestedDto $onPassStep,
-        public ?RouteStepNestedDto $onDeclineStep,
+        public readonly ?RoutingStepRequestNestedDto $onPassStep,
+        public readonly ?RoutingStepRequestNestedDto $onDeclineStep,
         #[Assert\NotBlank]
-        public string $type,
+        public readonly string $type,
         #[Assert\NotBlank]
-        public string $schemeType,
+        public readonly string $schemeType,
         #[Assert\Type('array')]
         #[Assert\All(
             constraints: [
                 new Assert\Type('string'),
             ]
         )]
-        public array $schemeProps,
+        public readonly array $schemeProps,
     ) {
     }
 }

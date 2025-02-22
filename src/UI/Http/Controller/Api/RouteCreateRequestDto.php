@@ -6,7 +6,7 @@ namespace App\UI\Http\Controller\Api;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class InputUrlAndRouteStepsCreateRequestDto
+final class RouteCreateRequestDto
 {
     public function __construct(
         #[Assert\NotBlank]
@@ -14,7 +14,7 @@ final class InputUrlAndRouteStepsCreateRequestDto
         public readonly string $urlPattern,
         public readonly int $priority,
         public readonly bool $isActive,
-        public readonly RouteStepRequestNestedDto $initialRouteStep,
+        public readonly RoutingStepRequestNestedDto $initialStep,
     ) {
     }
 }

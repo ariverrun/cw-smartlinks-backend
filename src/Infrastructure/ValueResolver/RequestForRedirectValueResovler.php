@@ -32,7 +32,7 @@ final class RequestForRedirectValueResovler implements ValueResolverInterface
         $violationsList = $this->validator->validate($argumentDto);
 
         if ($violationsList->count() > 0) {
-            throw new InvalidArgumentException(\sprintf('Request can not be resolved to %s', $argument->getType()));
+            throw new InvalidArgumentException();
         }
 
         return [$argumentDto];

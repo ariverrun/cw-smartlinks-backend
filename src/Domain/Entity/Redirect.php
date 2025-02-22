@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
-class Redirect extends RouteStep
+class Redirect extends RoutingStep
 {
     /**
      * @throws InvalidEntityException
