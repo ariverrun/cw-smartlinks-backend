@@ -10,10 +10,6 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class DevController extends AbstractController
 {
-    public function __construct(
-    ) {
-    }
-
     #[Route('/dev{any?}', name: 'app_dev')]
     public function __invoke(): Response
     {

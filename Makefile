@@ -86,6 +86,5 @@ composer_install:
 ## Analyze layers structure
 ##################
 
-
 deptrac:
 	vendor/bin/deptrac analyse

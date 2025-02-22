@@ -33,4 +33,9 @@ final class InputUrlRepository extends ServiceEntityRepository implements InputU
         $entityManager->persist($inputUrl);
         $entityManager->flush();
     }
+
+    public function findAllActiveDescByPriority(): array
+    {
+        return $this->findBy(['isActive' => true], ['priority' => 'Desc']);
+    }
 }
