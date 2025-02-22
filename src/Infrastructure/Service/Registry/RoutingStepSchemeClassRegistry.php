@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\Registry;
 
-use App\Application\RoutingStepScheme\RoutingStepSchemeInterface;
+use App\Application\Scheme\RoutingStepSchemeInterface;
 use App\Application\Service\Registry\RoutingStepSchemeClassRegistryInterface;
 use App\Application\Exception\UnknownRoutingStepSchemeException;
 use InvalidArgumentException;
