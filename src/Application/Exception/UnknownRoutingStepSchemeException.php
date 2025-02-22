@@ -6,6 +6,6 @@ namespace App\Application\Exception;
 
 use RuntimeException;
 
-class UnknowRouteStepTypeException extends RuntimeException
+class UnknownRoutingStepSchemeException extends RuntimeException
 {
 }

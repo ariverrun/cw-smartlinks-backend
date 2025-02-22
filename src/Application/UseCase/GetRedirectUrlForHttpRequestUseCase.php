@@ -17,9 +17,9 @@ class GetRedirectUrlForHttpRequestUseCase implements GetRedirectUrlForHttpReques
 
     public function __invoke(HttpRequestDto $dto): string
     {
-        $inputUrlId = $this->routeMatcher->findMatchingRouteIdForUrl($dto->requestPath);
+        $routeId = $this->routeMatcher->findMatchingRouteIdForUrl($dto->requestPath);
 
-        if (null === $inputUrlId) {
+        if (null === $routeId) {
             throw new MachingRouteIsNotFoundException();
         }
 

@@ -42,6 +42,8 @@ class RouteMatcher implements RouteMatcherInterface
     /**
      * @param string[] $urlParts
      * @param RoutePathPart $routePathPart
+     *
+     * @todo fix it - it's not working
      */
     private function findRecursively(array $urlParts, string $routePart, array $routePathPart): ?int
     {
@@ -53,7 +55,7 @@ class RouteMatcher implements RouteMatcherInterface
 
         if (
             $routePart === $urlParts[0]
-            || (str_starts_with($routePart, '{') && str_ends_with($routePart, '}'))
+            || $routePart === RoutingMapConstantsHolder::REQUIRED_PARAM
         ) {
             unset($urlParts[0]);
             $urlParts = array_values($urlParts);
@@ -68,7 +70,6 @@ class RouteMatcher implements RouteMatcherInterface
                         }
 
                         continue;
-
                     }
 
                     $routeId = $this->findRecursively($urlParts, $routePart, $childRoutePart);
@@ -81,6 +82,11 @@ class RouteMatcher implements RouteMatcherInterface
                 if (isset($routePathPart[RoutingMapConstantsHolder::MATCHES_ALL][RoutingMapConstantsHolder::TERMINAL_KEY])) {
                     return $routePathPart[RoutingMapConstantsHolder::MATCHES_ALL][RoutingMapConstantsHolder::TERMINAL_KEY];
                 }
+            } elseif (!empty($urlParts) && count($routePathPart) === 1 && isset($routePathPart[RoutingMapConstantsHolder::REQUIRED_PARAM])) {
+                /*
+                 * @todo doesnt work with req params
+                 */
+                return null;
             } else {
                 return null;
             }

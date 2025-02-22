@@ -16,22 +16,22 @@ use Doctrine\ORM\Mapping as ORM;
     'condition' => Condition::class,
     'redirect' => Redirect::class,
 ])]
-class RouteStep
+class RoutingStep
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     protected ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: InputUrl::class, inversedBy: 'routeSteps')]
+    #[ORM\ManyToOne(targetEntity: Route::class, inversedBy: 'steps')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?InputUrl $inputUrl;
+    protected ?Route $route;
 
-    #[ORM\OneToOne(targetEntity: RouteStep::class)]
-    protected ?RouteStep $onPassStep = null;
+    #[ORM\OneToOne(targetEntity: RoutingStep::class)]
+    protected ?RoutingStep $onPassStep = null;
 
-    #[ORM\OneToOne(targetEntity: RouteStep::class)]
-    protected ?RouteStep $onDeclineStep = null;
+    #[ORM\OneToOne(targetEntity: RoutingStep::class)]
+    protected ?RoutingStep $onDeclineStep = null;
 
     #[ORM\Column]
     protected string $schemeType;
@@ -51,36 +51,36 @@ class RouteStep
         return $this->id;
     }
 
-    final public function getInputUrl(): ?InputUrl
+    final public function getRoute(): ?Route
     {
-        return $this->inputUrl;
+        return $this->route;
     }
 
-    final public function setInputUrl(?InputUrl $inputUrl): static
+    final public function setRoute(?Route $route): static
     {
-        $this->inputUrl = $inputUrl;
+        $this->route = $route;
 
         return $this;
     }
 
-    final public function getOnPassStep(): ?RouteStep
+    final public function getOnPassStep(): ?RoutingStep
     {
         return $this->onPassStep;
     }
 
-    final public function setOnPassStep(?RouteStep $onPassStep): static
+    final public function setOnPassStep(?RoutingStep $onPassStep): static
     {
         $this->onPassStep = $onPassStep;
 
         return $this;
     }
 
-    final public function getOnDeclineStep(): ?RouteStep
+    final public function getOnDeclineStep(): ?RoutingStep
     {
         return $this->onDeclineStep;
     }
 
-    final public function setOnDeclineStep(?RouteStep $onDeclineStep): static
+    final public function setOnDeclineStep(?RoutingStep $onDeclineStep): static
     {
         $this->onDeclineStep = $onDeclineStep;
 

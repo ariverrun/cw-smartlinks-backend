@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use App\Domain\Repository\InputUrlRepositoryInterface;
+use App\Domain\Repository\RouteRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: InputUrlRepositoryInterface::class)]
+#[ORM\Entity(repositoryClass: RouteRepositoryInterface::class)]
 #[ORM\UniqueConstraint(columns: ['url_pattern'])]
-final class InputUrl
+final class Route
 {
     public const DEFAULT_PRIORITY = 0;
 
@@ -20,14 +20,14 @@ final class InputUrl
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: RouteStep::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private RouteStep $initialRouteStep;
+    #[ORM\OneToOne(targetEntity: RoutingStep::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private RoutingStep $initialStep;
 
     /**
-     * @var Collection<int, RouteStep> $routeSteps
+     * @var Collection<int, RoutingStep> $steps
      */
-    #[ORM\OneToMany(targetEntity: RouteStep::class, mappedBy: 'inputUrl', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $routeSteps;
+    #[ORM\OneToMany(targetEntity: RoutingStep::class, mappedBy: 'route', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $steps;
 
     public function __construct(
         #[ORM\Column(length: 2048)]
@@ -37,7 +37,7 @@ final class InputUrl
         #[ORM\Column]
         private bool $isActive = true,
     ) {
-        $this->routeSteps = new ArrayCollection();
+        $this->steps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,41 +69,41 @@ final class InputUrl
         return $this;
     }
 
-    public function getInitialRouteStep(): RouteStep
+    public function getInitialStep(): RoutingStep
     {
-        return $this->initialRouteStep;
+        return $this->initialStep;
     }
 
-    public function setInitialRouteStep(RouteStep $initialRouteStep): self
+    public function setInitialStep(RoutingStep $initialStep): self
     {
-        $this->initialRouteStep = $initialRouteStep;
+        $this->initialStep = $initialStep;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, RouteStep>
+     * @return Collection<int, RoutingStep>
      */
-    public function getRouteSteps(): Collection
+    public function getSteps(): Collection
     {
-        return $this->routeSteps;
+        return $this->steps;
     }
 
-    public function addRouteStep(RouteStep $routeStep): self
+    public function addStep(RoutingStep $step): self
     {
-        if (!$this->routeSteps->contains($routeStep)) {
-            $this->routeSteps->add($routeStep);
-            $routeStep->setInputUrl($this);
+        if (!$this->steps->contains($step)) {
+            $this->steps->add($step);
+            $step->setRoute($this);
         }
 
         return $this;
     }
 
-    public function removeRouteStep(RouteStep $routeStep): self
+    public function removeStep(RoutingStep $step): self
     {
-        if ($this->routeSteps->removeElement($routeStep)) {
-            if ($routeStep->getInputUrl() === $this) {
-                $routeStep->setInputUrl(null);
+        if ($this->steps->removeElement($step)) {
+            if ($step->getRoute() === $this) {
+                $step->setRoute(null);
             }
         }
 

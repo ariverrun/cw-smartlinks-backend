@@ -6,12 +6,12 @@ namespace App\Infrastructure\Routing;
 
 use App\Application\Service\Routing\RoutingMapProviderInterface;
 use App\Application\Service\Routing\RoutingMapConstantsHolder;
-use App\Domain\Repository\InputUrlRepositoryInterface;
+use App\Domain\Repository\RouteRepositoryInterface;
 
 class RoutingMapProvider implements RoutingMapProviderInterface
 {
     public function __construct(
-        private readonly InputUrlRepositoryInterface $inputUrlRepository,
+        private readonly RouteRepositoryInterface $routeRepository,
     ) {
     }
 
@@ -19,17 +19,17 @@ class RoutingMapProvider implements RoutingMapProviderInterface
     {
         $routingMap = [];
 
-        $inputUrls = $this->inputUrlRepository->findAllActiveDescByPriority();
+        $routes = $this->routeRepository->findAllActiveDescByPriority();
 
-        foreach ($inputUrls as $inputUrl) {
-            $urlPatternParts = explode('/', $inputUrl->getUrlPattern());
+        foreach ($routes as $route) {
+            $urlPatternParts = explode('/', $route->getUrlPattern());
             unset($urlPatternParts[0]);
 
-            if (!isset($routingMap[$inputUrl->getPriority()])) {
-                $routingMap[$inputUrl->getPriority()] = [];
+            if (!isset($routingMap[$route->getPriority()])) {
+                $routingMap[$route->getPriority()] = [];
             }
 
-            $tail = &$routingMap[$inputUrl->getPriority()];
+            $tail = &$routingMap[$route->getPriority()];
             $urlPatternPartsCount = count($urlPatternParts);
 
             foreach ($urlPatternParts as $i => $part) {
@@ -44,7 +44,7 @@ class RoutingMapProvider implements RoutingMapProviderInterface
                 }
 
                 if ($i === $urlPatternPartsCount) {
-                    $tail[$part][RoutingMapConstantsHolder::TERMINAL_KEY] = $inputUrl->getId();
+                    $tail[$part][RoutingMapConstantsHolder::TERMINAL_KEY] = $route->getId();
                 } else {
                     $tail = &$tail[$part];
                 }
