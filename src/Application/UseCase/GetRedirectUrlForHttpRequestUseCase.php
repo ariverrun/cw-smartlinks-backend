@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Application\UseCase;
 
 use App\Application\Dto\HttpRequestDto;
-use App\Application\Service\Routing\RouteMatcherInterface;
 use App\Application\Exception\MachingRouteIsNotFoundException;
+use App\Application\Service\Routing\RedirectUrlResolverInterface;
+use App\Application\Service\Routing\RouteMatcherInterface;
 
 class GetRedirectUrlForHttpRequestUseCase implements GetRedirectUrlForHttpRequestUseCaseInterface
 {
     public function __construct(
         private readonly RouteMatcherInterface $routeMatcher,
+        private readonly RedirectUrlResolverInterface $redirectUrlResolver,
     ) {
     }
 
@@ -23,6 +25,8 @@ class GetRedirectUrlForHttpRequestUseCase implements GetRedirectUrlForHttpReques
             throw new MachingRouteIsNotFoundException();
         }
 
-        return '';
+        $redirectUrl = $this->redirectUrlResolver->resolveRedirectUrl($routeId, $dto);
+
+        return $redirectUrl;
     }
 }

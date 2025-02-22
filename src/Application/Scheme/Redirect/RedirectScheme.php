@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\RoutingStepScheme\Redirect;
+namespace App\Application\Scheme\Redirect;
 
-use App\Application\RoutingStepScheme\RoutingStepSchemeInterface;
+use App\Application\Scheme\RoutingStepSchemeInterface;
 
 class RedirectScheme implements RoutingStepSchemeInterface
 {

@@ -28,9 +28,14 @@ services:
     App\Infrastructure\Service\Registry\RoutingStepSchemeClassRegistry:
         arguments:
             $classesByAlias:
-                redirect.redirect: 'App\Application\RoutingStepScheme\Redirect\RedirectScheme'
-                condition.datetime_range: 'App\Application\RoutingStepScheme\Condition\DateTimeRangeConditionScheme'
+                redirect.redirect: 'App\Application\Scheme\Redirect\RedirectScheme'
+                condition.datetime_range: 'App\Application\Scheme\Condition\DateTimeRangeConditionScheme'
 
+    App\Infrastructure\Service\Registry\RoutingStepStrategiesRegistry:
+        arguments:
+            $strategiesByAlias:
+                redirect.redirect: '@App\Infrastructure\Service\Strategy\Redirect\RedirectStrategy'
+                condition.datetime_range: '@App\Infrastructure\Service\Strategy\Condition\DateTimeRangeCheckerStrategy'
 
     app.auto_mapper.with_validation:
         class: App\Infrastructure\Mapper\ValidatingAutoMapperDecorator

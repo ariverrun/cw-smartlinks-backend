@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Application\RoutingStepScheme\Condition;
+namespace App\Application\Scheme\Condition;
 
-use App\Application\RoutingStepScheme\RoutingStepSchemeInterface;
+use App\Application\Scheme\RoutingStepSchemeInterface;
 use DateTimeImmutable;
 
 class DateTimeRangeConditionScheme implements RoutingStepSchemeInterface
