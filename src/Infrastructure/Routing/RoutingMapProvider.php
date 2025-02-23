@@ -15,6 +15,9 @@ class RoutingMapProvider implements RoutingMapProviderInterface
     ) {
     }
 
+    /**
+     * @return array<int,array<string,mixed>>
+     */
     public function getRoutingMap(): array
     {
         $routingMap = [];

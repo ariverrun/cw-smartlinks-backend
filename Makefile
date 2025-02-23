@@ -95,3 +95,11 @@ deptrac:
 
 yamllint:
 	yamllint .
+
+
+##################
+## PHPStan analysis
+##################
+
+phpstan:
+	vendor/bin/phpstan analyse src

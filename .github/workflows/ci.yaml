@@ -24,3 +24,5 @@ jobs:
         run: vendor/bin/deptrac analyse
       - name: Yamllint
         run: yamllint .
+      - name: PHPStan analyse
+        run: php vendor/bin/phpstan analyse -c phpstan.neon        

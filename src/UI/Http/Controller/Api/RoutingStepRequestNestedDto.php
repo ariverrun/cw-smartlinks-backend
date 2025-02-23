@@ -8,6 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class RoutingStepRequestNestedDto
 {
+    /**
+     * @param array<string,mixed> $schemeProps
+     */
     public function __construct(
         public readonly ?RoutingStepRequestNestedDto $onPassStep,
         public readonly ?RoutingStepRequestNestedDto $onDeclineStep,

@@ -11,9 +11,13 @@ use InvalidArgumentException;
 
 class RoutingStepClassRegistry implements RoutingStepClassRegistryInterface
 {
-    private readonly array $aliasesByClass;
     /**
      * @var array<string,string>
+     */
+    private readonly array $aliasesByClass;
+
+    /**
+     * @param array<string,string> $classesByAlias
      */
     public function __construct(
         private readonly array $classesByAlias,
