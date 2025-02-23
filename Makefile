@@ -88,3 +88,10 @@ composer_install:
 
 deptrac:
 	vendor/bin/deptrac analyse
+
+##################
+## Analyze YAML files
+##################
+
+yamllint:
+	yamllint .
