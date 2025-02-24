@@ -9,6 +9,9 @@ use App\Domain\Repository\RouteRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Route>
+ */
 final class RouteRepository extends ServiceEntityRepository implements RouteRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -33,6 +36,6 @@ final class RouteRepository extends ServiceEntityRepository implements RouteRepo
 
     public function findAllActiveDescByPriority(): array
     {
-        return $this->findBy(['isActive' => true], ['priority' => 'Desc']);
+        return $this->findBy(['isActive' => true], ['priority' => 'DESC']);
     }
 }

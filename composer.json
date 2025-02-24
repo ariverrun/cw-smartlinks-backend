@@ -80,6 +80,7 @@
         "deptrac/deptrac": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.69",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.23",
+        "phpstan/phpstan": "^2.1",
         "symfony/maker-bundle": "^1.62",
         "symfony/stopwatch": "7.2.*",
         "symfony/var-dumper": "7.2.*",

@@ -23,6 +23,9 @@ final class RequestForRedirectValueResovler implements ValueResolverInterface
     ) {
     }
 
+    /**
+     * @return iterable<mixed>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $requestData = $this->collectRequestData($request);
@@ -39,7 +42,7 @@ final class RequestForRedirectValueResovler implements ValueResolverInterface
     }
 
     /**
-     * @return array{headers: array, locale: string, requestPath: string, requestTime: string}
+     * @return array{headers: array<string, list<string|null>>, locale: string, requestPath: string, requestTime: string}
      */
     private function collectRequestData(Request $request): array
     {

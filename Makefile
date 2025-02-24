@@ -87,4 +87,19 @@ composer_install:
 ##################
 
 deptrac:
-	vendor/bin/deptrac analyse
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/deptrac analyse
+
+##################
+## Analyze YAML files
+##################
+
+yamllint:
+	yamllint .
+
+
+##################
+## PHPStan analysis
+##################
+
+phpstan:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src
