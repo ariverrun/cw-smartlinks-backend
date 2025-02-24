@@ -9,7 +9,9 @@ use App\Application\Service\Routing\RouteMatcherInterface;
 use App\Application\Service\Routing\RoutingMapProviderInterface;
 
 /**
- * @phpstan-type RoutePathPart array<string,RoutePathPart>|int
+ * @phpstan-type RoutePathPart array<string,RoutePathPart|int>
+ *
+ * @phpstan-ignore typeAlias.circular
  */
 class RouteMatcher implements RouteMatcherInterface
 {
@@ -44,6 +46,8 @@ class RouteMatcher implements RouteMatcherInterface
      * @param RoutePathPart $routePathPart
      *
      * @todo fix it - it's not working
+     *
+     * @phpstan-ignore missingType.iterableValue, parameter.unresolvableType
      */
     private function findRecursively(array $urlParts, string $routePart, array $routePathPart): ?int
     {
@@ -65,6 +69,7 @@ class RouteMatcher implements RouteMatcherInterface
             } elseif (!empty($urlParts) && count($routePathPart) > 1) {
                 foreach ($routePathPart as $routePart => $childRoutePart) {
                     if (is_int($childRoutePart)) {
+                        /* @phpstan-ignore empty.variable */
                         if (empty($urlParts)) {
                             return $childRoutePart;
                         }

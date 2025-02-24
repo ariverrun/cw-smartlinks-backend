@@ -16,6 +16,12 @@ class NormalizerBasedAutoMapper implements AutoMapperInterface
     ) {
     }
 
+    /**
+     * @param mixed[]|object $source
+     * @param mixed[]|object $target
+     *
+     * @return mixed[]|object|null
+     */
     public function map(array | object $source, string | array | object $target): array | object | null
     {
         $arrayData = $this->normalizer->normalize($source);

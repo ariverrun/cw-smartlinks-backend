@@ -18,6 +18,9 @@ final class Route
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /**
+     * @phpstan-ignore property.unusedType
+     */
     private ?int $id = null;
 
     #[ORM\OneToOne(targetEntity: RoutingStep::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
