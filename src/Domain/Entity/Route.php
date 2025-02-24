@@ -24,10 +24,10 @@ final class Route
     private ?int $id = null;
 
     #[ORM\OneToOne(targetEntity: RoutingStep::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private RoutingStep $initialStep;
+    private RoutingStepInterface $initialStep;
 
     /**
-     * @var Collection<int, RoutingStep> $steps
+     * @var Collection<int, RoutingStepInterface> $steps
      */
     #[ORM\OneToMany(targetEntity: RoutingStep::class, mappedBy: 'route', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $steps;
@@ -72,12 +72,12 @@ final class Route
         return $this;
     }
 
-    public function getInitialStep(): RoutingStep
+    public function getInitialStep(): RoutingStepInterface
     {
         return $this->initialStep;
     }
 
-    public function setInitialStep(RoutingStep $initialStep): self
+    public function setInitialStep(RoutingStepInterface $initialStep): self
     {
         $this->initialStep = $initialStep;
 
@@ -85,14 +85,14 @@ final class Route
     }
 
     /**
-     * @return Collection<int, RoutingStep>
+     * @return Collection<int, RoutingStepInterface>
      */
     public function getSteps(): Collection
     {
         return $this->steps;
     }
 
-    public function addStep(RoutingStep $step): self
+    public function addStep(RoutingStepInterface $step): self
     {
         if (!$this->steps->contains($step)) {
             $this->steps->add($step);
@@ -102,7 +102,7 @@ final class Route
         return $this;
     }
 
-    public function removeStep(RoutingStep $step): self
+    public function removeStep(RoutingStepInterface $step): self
     {
         if ($this->steps->removeElement($step)) {
             if ($step->getRoute() === $this) {

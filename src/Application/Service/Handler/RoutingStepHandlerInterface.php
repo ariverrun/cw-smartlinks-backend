@@ -6,12 +6,12 @@ namespace App\Application\Service\Handler;
 
 use App\Application\Dto\HttpRequestDto;
 use App\Application\Service\Routing\RedirectionContextInterface;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 
 interface RoutingStepHandlerInterface
 {
     public function handleRoutingStep(
-        RoutingStep $routingStep,
+        RoutingStepInterface $routingStep,
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface;

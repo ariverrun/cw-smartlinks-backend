@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
     'condition' => Condition::class,
     'redirect' => Redirect::class,
 ])]
-class RoutingStep
+class RoutingStep implements RoutingStepInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,10 +28,10 @@ class RoutingStep
     protected ?Route $route;
 
     #[ORM\OneToOne(targetEntity: RoutingStep::class)]
-    protected ?RoutingStep $onPassStep = null;
+    protected ?RoutingStepInterface $onPassStep = null;
 
     #[ORM\OneToOne(targetEntity: RoutingStep::class)]
-    protected ?RoutingStep $onDeclineStep = null;
+    protected ?RoutingStepInterface $onDeclineStep = null;
 
     #[ORM\Column]
     protected string $schemeType;
@@ -63,24 +63,24 @@ class RoutingStep
         return $this;
     }
 
-    final public function getOnPassStep(): ?RoutingStep
+    final public function getOnPassStep(): ?RoutingStepInterface
     {
         return $this->onPassStep;
     }
 
-    final public function setOnPassStep(?RoutingStep $onPassStep): static
+    final public function setOnPassStep(?RoutingStepInterface $onPassStep): static
     {
         $this->onPassStep = $onPassStep;
 
         return $this;
     }
 
-    final public function getOnDeclineStep(): ?RoutingStep
+    final public function getOnDeclineStep(): ?RoutingStepInterface
     {
         return $this->onDeclineStep;
     }
 
-    final public function setOnDeclineStep(?RoutingStep $onDeclineStep): static
+    final public function setOnDeclineStep(?RoutingStepInterface $onDeclineStep): static
     {
         $this->onDeclineStep = $onDeclineStep;
 

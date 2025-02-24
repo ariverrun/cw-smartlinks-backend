@@ -8,18 +8,17 @@ use App\Application\Dto\HttpRequestDto;
 use App\Application\Scheme\RoutingStepSchemeInterface;
 use App\Application\Service\Handler\RoutingStepHandlerResultInterface;
 use App\Application\Service\Routing\RedirectionContextInterface;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 use App\Infrastructure\Service\Handler\RoutingStepHandlerResult;
 
 abstract class ConditionCheckerStrategy extends RoutingStepStrategy
 {
     protected function doRouteStepTypeSpecificHandling(
-        RoutingStep $routingStep,
+        RoutingStepInterface $routingStep,
         RoutingStepSchemeInterface $routingStepScheme,
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface {
-
         $isConditionMet = $this->meetsCondtion(
             $routingStepScheme,
             $httpRequestDto,

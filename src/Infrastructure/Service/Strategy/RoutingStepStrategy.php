@@ -11,7 +11,7 @@ use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Application\Service\Registry\RoutingStepSchemeClassRegistryInterface;
 use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Application\Service\Strategy\RoutingStepStrategyInterface;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use RuntimeException;
 
@@ -25,7 +25,7 @@ abstract class RoutingStepStrategy implements RoutingStepStrategyInterface
     }
 
     final public function doHandleRoutingStep(
-        RoutingStep $routingStep,
+        RoutingStepInterface $routingStep,
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface {
@@ -49,7 +49,7 @@ abstract class RoutingStepStrategy implements RoutingStepStrategyInterface
     }
 
     abstract protected function doRouteStepTypeSpecificHandling(
-        RoutingStep $routingStep,
+        RoutingStepInterface $routingStep,
         RoutingStepSchemeInterface $routingStepScheme,
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,

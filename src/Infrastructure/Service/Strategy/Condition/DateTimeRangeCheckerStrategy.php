@@ -20,7 +20,7 @@ final class DateTimeRangeCheckerStrategy extends ConditionCheckerStrategy
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): bool {
-        return $httpRequestDto->requestTime >= $routingStepScheme->from && $httpRequestDto < $routingStepScheme->to;
+        return $httpRequestDto->requestTime >= $routingStepScheme->from && $httpRequestDto->requestTime < $routingStepScheme->to;
     }
 
     protected function isRouteStepSchemeSupported(RoutingStepSchemeInterface $routingStepScheme): bool

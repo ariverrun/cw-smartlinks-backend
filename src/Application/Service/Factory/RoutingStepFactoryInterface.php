@@ -6,9 +6,9 @@ namespace App\Application\Service\Factory;
 
 use App\Application\Dto\RoutingStepNestedDto;
 use App\Domain\Entity\Route;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 
 interface RoutingStepFactoryInterface
 {
-    public function createRoutingStep(RoutingStepNestedDto $dto, Route $route): RoutingStep;
+    public function createRoutingStep(RoutingStepNestedDto $dto, Route $route): RoutingStepInterface;
 }
