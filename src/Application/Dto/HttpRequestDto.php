@@ -7,7 +7,7 @@ namespace App\Application\Dto;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTimeImmutable;
 
-final readonly class HttpRequestDto
+readonly class HttpRequestDto
 {
     public function __construct(
         #[Assert\NotBlank]

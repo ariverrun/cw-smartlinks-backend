@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RouteRepositoryInterface::class)]
 #[ORM\UniqueConstraint(columns: ['url_pattern'])]
-final class Route
+final class Route implements RouteInterface
 {
     public const DEFAULT_PRIORITY = 0;
 
