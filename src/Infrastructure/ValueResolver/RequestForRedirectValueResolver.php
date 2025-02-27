@@ -15,7 +15,7 @@ use DateTimeInterface;
 use InvalidArgumentException;
 
 #[AsTargetedValueResolver('request_for_redirect')]
-final class RequestForRedirectValueResovler implements ValueResolverInterface
+final class RequestForRedirectValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private readonly DenormalizerInterface $denormalizer,
