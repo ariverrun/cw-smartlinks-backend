@@ -25,7 +25,6 @@ class RoutingStepHandler implements RoutingStepHandlerInterface
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface {
-
         $routingStepClassAlias = $this->routingStepClassRegistry->getAliasForRoutingStepClass($routingStep::class);
 
         $strategy = $this->routingStepStrategiesRegistry->getStrategyByAlias(
@@ -33,6 +32,5 @@ class RoutingStepHandler implements RoutingStepHandlerInterface
         );
 
         return $strategy->doHandleRoutingStep($routingStep, $httpRequestDto, $context);
-
     }
 }
