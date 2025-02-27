@@ -10,7 +10,7 @@ use App\Application\Service\Handler\RoutingStepHandlerResultInterface;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Application\Service\Registry\RoutingStepStrategiesRegistryInterface;
 use App\Application\Service\Routing\RedirectionContextInterface;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 
 class RoutingStepHandler implements RoutingStepHandlerInterface
 {
@@ -21,7 +21,7 @@ class RoutingStepHandler implements RoutingStepHandlerInterface
     }
 
     public function handleRoutingStep(
-        RoutingStep $routingStep,
+        RoutingStepInterface $routingStep,
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface {

@@ -103,3 +103,23 @@ yamllint:
 
 phpstan:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src
+
+
+##################
+## Tests
+##################
+
+tests_all:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests
+
+tests_coverage_xml:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-clover=coverage/clover.xml
+
+tests_coverage_html:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-html coverage/
+
+tests_coverage_text:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-text
+
+tests_unit:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Unit

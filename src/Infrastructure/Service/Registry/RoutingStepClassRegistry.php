@@ -6,7 +6,7 @@ namespace App\Infrastructure\Service\Registry;
 
 use App\Application\Exception\UnknowRoutingStepTypeException;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 use InvalidArgumentException;
 
 class RoutingStepClassRegistry implements RoutingStepClassRegistryInterface
@@ -23,7 +23,7 @@ class RoutingStepClassRegistry implements RoutingStepClassRegistryInterface
         private readonly array $classesByAlias,
     ) {
         foreach ($classesByAlias as $class) {
-            if (!\is_subclass_of($class, RoutingStep::class)) {
+            if (!\is_subclass_of($class, RoutingStepInterface::class)) {
                 throw new InvalidArgumentException();
             }
         }

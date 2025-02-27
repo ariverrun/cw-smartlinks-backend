@@ -8,7 +8,7 @@ use App\Application\Dto\RoutingStepNestedDto;
 use App\Application\Service\Factory\RoutingStepFactoryInterface;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Domain\Entity\Route;
-use App\Domain\Entity\RoutingStep;
+use App\Domain\Entity\RoutingStepInterface;
 
 class RecursiveRoutingStepFactory implements RoutingStepFactoryInterface
 {
@@ -17,9 +17,9 @@ class RecursiveRoutingStepFactory implements RoutingStepFactoryInterface
     ) {
     }
 
-    public function createRoutingStep(RoutingStepNestedDto $dto, Route $route): RoutingStep
+    public function createRoutingStep(RoutingStepNestedDto $dto, Route $route): RoutingStepInterface
     {
-        /** @var class-string<RoutingStep> $routingStepClass */
+        /** @var class-string<RoutingStepInterface> $routingStepClass */
         $routingStepClass = $this->routingStepClassRegistry->getRoutingStepClassByAlias($dto->type);
 
         $routingStep = (new $routingStepClass())

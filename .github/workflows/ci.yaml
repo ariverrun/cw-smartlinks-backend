@@ -18,11 +18,41 @@ jobs:
           php-version: '8.3'
       - name: Install dependencies via Composer
         run: COMPOSER_NO_DEV=0 composer install
+
       - name: CS-Fixer dry-run
         run: php vendor/bin/php-cs-fixer fix --dry-run    
+
       - name: Deptrac analyse
         run: vendor/bin/deptrac analyse
+
       - name: Yamllint
         run: yamllint .
+        
       - name: PHPStan analyse
         run: php vendor/bin/phpstan analyse -c phpstan.neon        
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install dependencies via Composer
+        run: COMPOSER_NO_DEV=0 composer install
+
+      - name: Run PHPUnit with coverage and print report
+        run: |
+          mkdir -p coverage
+          php vendor/bin/phpunit tests --coverage-text
+
+      # - name: Upload coverage report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: code-coverage-report
+      #     path: coverage/clover.xml
+
