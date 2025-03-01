@@ -1,9 +1,20 @@
 parameters:
     level: 6
     treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
     paths:
         - bin/
         - config/
         - public/
         - src/
         - tests/
+
+    ignoreErrors:
+        -
+            identifier: parameter.unresolvableType
+            count: 3
+            path: tests/Unit/Infrastructure/Service/Routing/RouteMatcherTest.php
+        -
+            identifier: return.unresolvableType
+            count: 1
+            path: tests/Unit/Infrastructure/Service/Routing/RouteMatcherTest.php

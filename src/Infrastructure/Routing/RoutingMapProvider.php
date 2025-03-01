@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infrastructure\Routing;
 
 use App\Application\Service\Routing\RoutingMapProviderInterface;
-use App\Application\Service\Routing\RoutingMapConstantsHolder;
 use App\Domain\Repository\RouteRepositoryInterface;
 
 class RoutingMapProvider implements RoutingMapProviderInterface
@@ -15,12 +14,12 @@ class RoutingMapProvider implements RoutingMapProviderInterface
     ) {
     }
 
-    /**
-     * @return array<int,array<string,mixed>>
-     */
     public function getRoutingMap(): array
     {
-        $routingMap = [];
+        /**
+         * @var array<int, RoutingMapNode>
+         */
+        $prioritizedRoutingMap = [];
 
         $routes = $this->routeRepository->findAllActiveDescByPriority();
 
@@ -28,32 +27,36 @@ class RoutingMapProvider implements RoutingMapProviderInterface
             $urlPatternParts = explode('/', $route->getUrlPattern());
             unset($urlPatternParts[0]);
 
-            if (!isset($routingMap[$route->getPriority()])) {
-                $routingMap[$route->getPriority()] = [];
+            $priority = $route->getPriority();
+
+            if (!isset($prioritizedRoutingMap[$priority])) {
+                $prioritizedRoutingMap[$priority] = new RoutingMapNode();
             }
 
-            $tail = &$routingMap[$route->getPriority()];
+            $tailNode = $prioritizedRoutingMap[$priority];
+
             $urlPatternPartsCount = count($urlPatternParts);
 
             foreach ($urlPatternParts as $i => $part) {
-                if (str_starts_with($part, '{') && str_ends_with($part, '}')) {
-                    $part = RoutingMapConstantsHolder::REQUIRED_PARAM;
-                } elseif ('*' === $part) {
-                    $part = RoutingMapConstantsHolder::MATCHES_ALL;
-                }
-
-                if (!isset($tail[$part])) {
-                    $tail[$part] = [];
-                }
+                $node = new RoutingMapNode();
 
                 if ($i === $urlPatternPartsCount) {
-                    $tail[$part][RoutingMapConstantsHolder::TERMINAL_KEY] = $route->getId();
-                } else {
-                    $tail = &$tail[$part];
+                    $node->setTerminalRouteId($route->getId());
                 }
+
+                if (str_starts_with($part, '{') && str_ends_with($part, '}')) {
+                    $tailNode->addRequiredParamNode($node);
+                } elseif ('*' === $part) {
+                    $tailNode->addMatchingAllNode($node);
+                } else {
+                    $tailNode->addKeyNode($part, $node);
+                }
+
+                $tailNode = $node;
             }
+
         }
 
-        return $routingMap;
+        return $prioritizedRoutingMap;
     }
 }
