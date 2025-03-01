@@ -102,7 +102,7 @@ yamllint:
 ##################
 
 phpstan:
-	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src tests
 
 
 ##################

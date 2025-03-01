@@ -25,7 +25,7 @@ class RoutingStep implements RoutingStepInterface
 
     #[ORM\ManyToOne(targetEntity: Route::class, inversedBy: 'steps')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Route $route;
+    protected ?RouteInterface $route;
 
     #[ORM\OneToOne(targetEntity: RoutingStep::class)]
     protected ?RoutingStepInterface $onPassStep = null;
@@ -51,12 +51,12 @@ class RoutingStep implements RoutingStepInterface
         return $this->id;
     }
 
-    final public function getRoute(): ?Route
+    final public function getRoute(): ?RouteInterface
     {
         return $this->route;
     }
 
-    final public function setRoute(?Route $route): static
+    final public function setRoute(?RouteInterface $route): static
     {
         $this->route = $route;
 

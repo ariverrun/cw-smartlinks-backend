@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\Entity\Route;
+use App\Domain\Entity\RouteInterface;
 use App\Domain\Repository\RouteRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,14 +20,14 @@ final class RouteRepository extends ServiceEntityRepository implements RouteRepo
         parent::__construct($registry, Route::class);
     }
 
-    public function findOneById(int $routeId): ?Route
+    public function findOneById(int $routeId): ?RouteInterface
     {
         $route = $this->find($routeId);
 
         return $route;
     }
 
-    public function save(Route $route): void
+    public function save(RouteInterface $route): void
     {
         $entityManager = $this->getEntityManager();
 
