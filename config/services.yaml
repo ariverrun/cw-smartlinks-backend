@@ -31,13 +31,15 @@ services:
                 redirect.redirect: 'App\Application\Scheme\Redirect\RedirectScheme'
                 condition.datetime_range: 'App\Application\Scheme\Condition\DateTimeRangeConditionScheme'
                 condition.week_day: 'App\Application\Scheme\Condition\WeekDayConditionScheme'
+                condition.locale: 'App\Application\Scheme\Condition\LocaleConditionScheme'
 
     App\Infrastructure\Service\Registry\RoutingStepStrategiesRegistry:
         arguments:
             $strategiesByAlias:
                 redirect.redirect: '@App\Infrastructure\Service\Strategy\Redirect\RedirectStrategy'
                 condition.datetime_range: '@App\Infrastructure\Service\Strategy\Condition\DateTimeRangeCheckerStrategy'
-                condition.week_day: '@App\Infrastructure\Service\Strategy\Condition\WeekDayConditionCheckerStrategy'
+                condition.week_day: '@App\Infrastructure\Service\Strategy\Condition\WeekDayCheckerStrategy'
+                condition.locale: '@App\Infrastructure\Service\Strategy\Condition\LocaleCheckerStrategy'
 
     app.auto_mapper.with_validation:
         class: App\Infrastructure\Mapper\ValidatingAutoMapperDecorator

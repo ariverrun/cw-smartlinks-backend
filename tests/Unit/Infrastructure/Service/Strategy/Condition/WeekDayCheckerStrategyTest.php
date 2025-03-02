@@ -10,13 +10,13 @@ use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Application\Service\Registry\RoutingStepSchemeClassRegistryInterface;
 use App\Domain\Entity\RoutingStepInterface;
-use App\Infrastructure\Service\Strategy\Condition\WeekDayConditionCheckerStrategy;
+use App\Infrastructure\Service\Strategy\Condition\WeekDayCheckerStrategy;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use DateTimeImmutable;
 
-final class WeekDayConditionCheckerStrategyTest extends TestCase
+final class WeekDayCheckerStrategyTest extends TestCase
 {
     /**
      * @param int[] $weekDays
@@ -61,7 +61,7 @@ final class WeekDayConditionCheckerStrategyTest extends TestCase
                                 ->method('denormalize')
                                 ->willReturn($scheme);        
 
-        $strategy = new WeekDayConditionCheckerStrategy(
+        $strategy = new WeekDayCheckerStrategy(
             $routingStepClassRegistryMock,
             $routingStepSchemeClassRegistry,
             $denormalizerMock
