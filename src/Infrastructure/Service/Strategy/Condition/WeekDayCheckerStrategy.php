@@ -10,7 +10,7 @@ use App\Application\Scheme\RoutingStepSchemeInterface;
 use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Infrastructure\Service\Strategy\ConditionCheckerStrategy;
 
-final class WeekDayConditionCheckerStrategy extends ConditionCheckerStrategy
+final class WeekDayCheckerStrategy extends ConditionCheckerStrategy
 {
     /**
      * @param WeekDayConditionScheme $routingStepScheme
