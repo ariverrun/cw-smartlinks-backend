@@ -6,7 +6,7 @@ namespace App\Application\Scheme\Condition;
 
 use App\Application\Scheme\RoutingStepSchemeInterface;
 
-class LocaleCondtionScheme implements RoutingStepSchemeInterface
+class LocaleConditionScheme implements RoutingStepSchemeInterface
 {
     /**
      * @var string[]

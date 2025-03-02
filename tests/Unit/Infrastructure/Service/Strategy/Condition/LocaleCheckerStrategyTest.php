@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Infrastructure\Service\Strategy\Condition;
 
 use App\Application\Dto\HttpRequestDto;
-use App\Application\Scheme\Condition\LocaleCondtionScheme;
+use App\Application\Scheme\Condition\LocaleConditionScheme;
 use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Application\Service\Registry\RoutingStepSchemeClassRegistryInterface;
@@ -51,9 +51,9 @@ final class LocaleCheckerStrategyTest extends TestCase
         $routingStepSchemeClassRegistry = $this->createMock(RoutingStepSchemeClassRegistryInterface::class);
         $routingStepSchemeClassRegistry->expects($this->once())
                                 ->method('getRoutingStepSchemeClassByAlias')
-                                ->willReturn(LocaleCondtionScheme::class);
+                                ->willReturn(LocaleConditionScheme::class);
 
-        $scheme = new LocaleCondtionScheme();
+        $scheme = new LocaleConditionScheme();
         $scheme->locales = $locales;
 
         $denormalizerMock = $this->createMock(DenormalizerInterface::class);
