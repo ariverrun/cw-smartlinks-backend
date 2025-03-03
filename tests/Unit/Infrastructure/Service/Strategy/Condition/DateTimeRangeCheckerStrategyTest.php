@@ -39,6 +39,7 @@ final class DateTimeRangeCheckerStrategyTest extends TestCase
             '',
             [],
             $requestTime,
+            '',
         );
 
         $routingStepClassRegistryMock = $this->createMock(RoutingStepClassRegistryInterface::class);

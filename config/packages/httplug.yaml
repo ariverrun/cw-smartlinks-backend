@@ -1,0 +1,14 @@
+httplug:
+  clients:
+    geoip_detector_api:
+      factory: 'httplug.factory.guzzle7'
+      plugins:
+        - base_uri:
+            uri: '%env(GEOIP_DETECTOR_API_HOST)%'
+        - header_defaults:
+            headers:
+              "Content-Type": 'application/json'
+              "Accept": 'application/json'
+              "X-API-TOKEN": '%env(GEOIP_DETECTOR_API_KEY)%'
+        - redirect:
+            enabled: true

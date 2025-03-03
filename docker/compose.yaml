@@ -14,7 +14,7 @@ services:
       - database_data:/var/lib/postgresql/data:rw
     networks:
       - default
-      - cw-smartlinks-shared-network
+      - cw-smartlinks-backend-network
 
   php:
     build:
@@ -36,11 +36,11 @@ services:
       retries: 3
     networks:
       - default
-      - cw-smartlinks-shared-network
+      - cw-smartlinks-backend-network
 
 volumes:
   database_data:
 
 networks:
-  cw-smartlinks-shared-network:
+  cw-smartlinks-backend-network:
     external: true
