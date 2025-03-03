@@ -41,6 +41,7 @@ final class WeekDayCheckerStrategyTest extends TestCase
             '',
             [],
             $requestTime,
+            '',
         );
 
         $routingStepClassRegistryMock = $this->createMock(RoutingStepClassRegistryInterface::class);

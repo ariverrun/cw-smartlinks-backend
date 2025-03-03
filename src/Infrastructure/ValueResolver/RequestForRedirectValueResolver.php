@@ -57,6 +57,7 @@ final class RequestForRedirectValueResolver implements ValueResolverInterface
             ->format(
                 DateTimeInterface::ATOM
             ),
+            'ip' => $request->getClientIp(),
         ];
     }
 }

@@ -21,13 +21,13 @@ dc_up: #up containers
 	${DOCKER_COMPOSE} up -d --remove-orphans
 
 dc_network:
-	docker network create -d bridge cw-smartlinks-shared-network
+	docker network create -d bridge cw-smartlinks-backend-network
 
 dc_rebuild_and_up: #stop, build services again and up them
 	${DOCKER_COMPOSE} down --remove-orphans
-	docker network rm cw-smartlinks-shared-network
+	docker network rm cw-smartlinks-backend-network
 	${DOCKER_COMPOSE} build
-	docker network create -d bridge cw-smartlinks-shared-network
+	docker network create -d bridge cw-smartlinks-backend-network
 	${DOCKER_COMPOSE} up -d --remove-orphans
 
 dc_ps: #show containers list

@@ -27,6 +27,8 @@ final readonly class RequestForRedirectDto
         ])]
         public array $headers,
         public DateTimeImmutable $requestTime,
+        #[Assert\Ip]
+        public string $ip,
     ) {
     }
 }

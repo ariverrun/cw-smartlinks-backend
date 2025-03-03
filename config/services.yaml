@@ -32,6 +32,7 @@ services:
                 condition.datetime_range: 'App\Application\Scheme\Condition\DateTimeRangeConditionScheme'
                 condition.week_day: 'App\Application\Scheme\Condition\WeekDayConditionScheme'
                 condition.locale: 'App\Application\Scheme\Condition\LocaleConditionScheme'
+                condition.country: 'App\Application\Scheme\Condition\CountryConditionScheme'
 
     App\Infrastructure\Service\Registry\RoutingStepStrategiesRegistry:
         arguments:
@@ -40,11 +41,21 @@ services:
                 condition.datetime_range: '@App\Infrastructure\Service\Strategy\Condition\DateTimeRangeCheckerStrategy'
                 condition.week_day: '@App\Infrastructure\Service\Strategy\Condition\WeekDayCheckerStrategy'
                 condition.locale: '@App\Infrastructure\Service\Strategy\Condition\LocaleCheckerStrategy'
+                condition.country: '@App\Infrastructure\Service\Strategy\Condition\CountryCheckerStrategy'
 
     app.auto_mapper.with_validation:
         class: App\Infrastructure\Mapper\ValidatingAutoMapperDecorator
         arguments:
             $autoMapper: '@App\Infrastructure\Mapper\NormalizerBasedAutoMapper'
+
+    app.geo_ip_detector.with_memory:
+        class: App\Infrastructure\Service\Detector\MemorizingGeoIpDetectorDecorator
+        arguments:
+            $decoratedDetector: '@App\Infrastructure\Service\Detector\GeoIpDetectorApiAdapter'
+
+    App\Infrastructure\Service\Strategy\Condition\CountryCheckerStrategy:
+        arguments:
+            $geoIpDetector: '@app.geo_ip_detector.with_memory'
 
     App\UI\Http\Controller\Api\RouteApiController:
         arguments:

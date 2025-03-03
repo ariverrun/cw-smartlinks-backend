@@ -41,6 +41,7 @@ final class LocaleCheckerStrategyTest extends TestCase
             $requestLocale,
             [],
             new DateTimeImmutable(),
+            '',
         );
 
         $routingStepClassRegistryMock = $this->createMock(RoutingStepClassRegistryInterface::class);

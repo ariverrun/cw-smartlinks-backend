@@ -27,6 +27,8 @@ readonly class HttpRequestDto
         ])]
         public array $headers,
         public DateTimeImmutable $requestTime,
+        #[Assert\Ip]
+        public string $ip,
     ) {
     }
 }
