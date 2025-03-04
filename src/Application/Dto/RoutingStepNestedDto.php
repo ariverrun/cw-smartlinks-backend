@@ -19,11 +19,6 @@ final readonly class RoutingStepNestedDto
         #[Assert\NotBlank]
         public string $schemeType,
         #[Assert\Type('array')]
-        #[Assert\All(
-            constraints: [
-                new Assert\Type('string'),
-            ]
-        )]
         public array $schemeProps,
     ) {
     }
