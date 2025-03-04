@@ -123,3 +123,13 @@ tests_coverage_text:
 
 tests_unit:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Unit
+
+tests_init:
+	${DOCKER_COMPOSE_PHP_EXEC} composer install -n
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear --env=test
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:database:drop --if-exists --env=test --force -n
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:database:create --env=test -n
+	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:migrations:migrate --env=test --quiet -n
+
+tests_integration:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Integration

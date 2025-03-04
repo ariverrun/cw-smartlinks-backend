@@ -39,4 +39,14 @@ final class RouteRepository extends ServiceEntityRepository implements RouteRepo
     {
         return $this->findBy(['isActive' => true], ['priority' => 'DESC']);
     }
+
+    public function doExistWithUrlPattern(string $urlPattern): bool
+    {
+        return (bool)$this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.urlPattern = :urlPattern')
+            ->setParameter('urlPattern', $urlPattern)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

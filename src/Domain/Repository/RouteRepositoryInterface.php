@@ -21,4 +21,6 @@ interface RouteRepositoryInterface
      * @return RouteInterface[]
      */
     public function findAllActiveDescByPriority(): array;
+
+    public function doExistWithUrlPattern(string $urlPattern): bool;
 }
