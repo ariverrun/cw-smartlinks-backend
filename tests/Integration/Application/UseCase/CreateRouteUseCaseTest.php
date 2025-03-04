@@ -10,28 +10,54 @@ use App\Application\Exception\DuplicateRouteUrlPatternException;
 use App\Application\Exception\UnknowRoutingStepTypeException;
 use App\Application\Service\Registry\RoutingStepClassRegistryInterface;
 use App\Application\UseCase\CreateRouteUseCase;
+use App\Domain\Entity\Redirect;
+use App\Domain\Entity\Route;
 use App\Domain\Entity\RoutingStepInterface;
 use App\Domain\Exception\InvalidEntityException;
 use App\Domain\Repository\RouteRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Throwable;
 
 final class CreateRouteUseCaseTest extends KernelTestCase
 {
+    private ContainerInterface $container;
+
     private RoutingStepClassRegistryInterface $routingStepClassRegistry;
 
     /**
      * @param class-string<Throwable> | null $exceptionClass
      */
     #[DataProvider('getTestCases')]
-    public function testCreatesRouteAndStepsRight(RouteDto $routeDto, ?string $exceptionClass): void
-    {
+    public function testCreatesRouteAndStepsRight(
+        RouteDto $routeDto, 
+        ?string $exceptionClass, 
+        ?bool $createUrlPatternDuplicateBefore = null,
+    ): void {
         self::bootKernel();
 
-        $container = static::getContainer();        
+        $this->container = static::getContainer();    
 
-        $createRouteUseCase = $container->get(CreateRouteUseCase::class);
+        if (true === $createUrlPatternDuplicateBefore) {
+            $route = (new Route($routeDto->urlPattern))
+            ->setInitialStep(
+                (new Redirect())
+                                ->setSchemeType('redirect')
+                                ->setSchemeProps(['url' => 'r@test.com'])
+            );
+
+            $route->getInitialStep()->setRoute($route);
+
+            $entityManager = $this->container->get(EntityManagerInterface::class);
+
+            $entityManager->persist($route);
+            $entityManager->flush();            
+        }
+
+        $createRouteUseCase = $this->container->get(CreateRouteUseCase::class);
 
         if (null !== $exceptionClass) {
             $this->expectException($exceptionClass);
@@ -43,7 +69,7 @@ final class CreateRouteUseCaseTest extends KernelTestCase
             $this->assertGreaterThan(0, $routeId);
 
             /** @var RouteRepositoryInterface $routeRepository */
-            $routeRepository = $container->get(RouteRepositoryInterface::class);
+            $routeRepository = $this->container->get(RouteRepositoryInterface::class);
 
             $route = $routeRepository->findOneById($routeId);
 
@@ -51,39 +77,14 @@ final class CreateRouteUseCaseTest extends KernelTestCase
             $this->assertEquals($routeDto->priority, $route->getPriority());
             $this->assertEquals($routeDto->isActive, $route->isActive());
 
-            $this->routingStepClassRegistry = $container->get(RoutingStepClassRegistryInterface::class);
+            $this->routingStepClassRegistry = $this->container->get(RoutingStepClassRegistryInterface::class);
 
             $this->doRouteStepAssertions($route->getInitialStep(), $routeDto->initialStep);
         }
     }
 
-    private function doRouteStepAssertions(RoutingStepInterface $routingStep, RoutingStepNestedDto $routingStepDto): void
-    {
-        $this->assertEquals($routingStepDto->schemeType, $routingStep->getSchemeType());
-        $this->assertEqualsCanonicalizing($routingStepDto->schemeProps, $routingStep->getSchemeProps());
-
-        $this->assertInstanceOf(
-            $this->routingStepClassRegistry->getRoutingStepClassByAlias($routingStepDto->type),
-            $routingStep,
-        );
-
-        if (null !== $routingStepDto->onPassStep) {
-            $this->assertNotNull($routingStep->getOnPassStep());
-            $this->doRouteStepAssertions($routingStep->getOnPassStep(), $routingStepDto->onPassStep);
-        } else {
-            $this->assertNull($routingStep->getOnPassStep());
-        }
-
-        if (null !== $routingStepDto->onDeclineStep) {
-            $this->assertNotNull($routingStep->getOnDeclineStep());
-            $this->doRouteStepAssertions($routingStep->getOnDeclineStep(), $routingStepDto->onDeclineStep);
-        } else {
-            $this->assertNull($routingStep->getOnDeclineStep());
-        }        
-    }
-
     /**
-     * @return array{routeDto: RouteDto, exceptionClass: class-string<Throwable>|null}[]
+     * @return array{routeDto: RouteDto, exceptionClass: class-string<Throwable>|null, createUrlPatternDuplicateBefore?: bool|null}[]
      */
     public static function getTestCases(): array
     {
@@ -177,6 +178,7 @@ final class CreateRouteUseCaseTest extends KernelTestCase
                     ),
                 ),
                 'exceptionClass' => DuplicateRouteUrlPatternException::class,
+                'createUrlPatternDuplicateBefore' => true,
             ],
             [
                 'routeDto' => new RouteDto(
@@ -264,4 +266,35 @@ final class CreateRouteUseCaseTest extends KernelTestCase
             ],
         ];
     }    
+
+    protected function tearDown(): void
+    {
+        $purger = new ORMPurger($this->container->get(EntityManagerInterface::class));
+        $purger->purge();
+    }
+
+    private function doRouteStepAssertions(RoutingStepInterface $routingStep, RoutingStepNestedDto $routingStepDto): void
+    {
+        $this->assertEquals($routingStepDto->schemeType, $routingStep->getSchemeType());
+        $this->assertEqualsCanonicalizing($routingStepDto->schemeProps, $routingStep->getSchemeProps());
+
+        $this->assertInstanceOf(
+            $this->routingStepClassRegistry->getRoutingStepClassByAlias($routingStepDto->type),
+            $routingStep,
+        );
+
+        if (null !== $routingStepDto->onPassStep) {
+            $this->assertNotNull($routingStep->getOnPassStep());
+            $this->doRouteStepAssertions($routingStep->getOnPassStep(), $routingStepDto->onPassStep);
+        } else {
+            $this->assertNull($routingStep->getOnPassStep());
+        }
+
+        if (null !== $routingStepDto->onDeclineStep) {
+            $this->assertNotNull($routingStep->getOnDeclineStep());
+            $this->doRouteStepAssertions($routingStep->getOnDeclineStep(), $routingStepDto->onDeclineStep);
+        } else {
+            $this->assertNull($routingStep->getOnDeclineStep());
+        }        
+    }
 }
