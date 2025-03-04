@@ -7,7 +7,7 @@ namespace App\UI\Http\Controller\Api;
 use App\UI\Http\Validator\ContainsRoutingStepScheme;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class RouteCreateRequestDto
+final class RouteRequestDto
 {
     public function __construct(
         #[Assert\NotBlank]
