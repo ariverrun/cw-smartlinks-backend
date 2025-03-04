@@ -27,10 +27,10 @@ class RoutingStep implements RoutingStepInterface
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?RouteInterface $route;
 
-    #[ORM\OneToOne(targetEntity: RoutingStep::class)]
+    #[ORM\OneToOne(targetEntity: RoutingStep::class, cascade: ['remove'], orphanRemoval: true)]
     protected ?RoutingStepInterface $onPassStep = null;
 
-    #[ORM\OneToOne(targetEntity: RoutingStep::class)]
+    #[ORM\OneToOne(targetEntity: RoutingStep::class, cascade: ['remove'], orphanRemoval: true)]
     protected ?RoutingStepInterface $onDeclineStep = null;
 
     #[ORM\Column]
