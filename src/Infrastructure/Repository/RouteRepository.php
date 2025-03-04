@@ -49,4 +49,9 @@ final class RouteRepository extends ServiceEntityRepository implements RouteRepo
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findOneByUrlPattern(string $urlPattern): ?RouteInterface
+    {
+        return $this->findOneBy(['urlPattern' => $urlPattern]);
+    }
 }
