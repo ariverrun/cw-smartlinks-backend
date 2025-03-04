@@ -204,6 +204,7 @@ final class UpdateRouteUseCaseTest extends KernelTestCase
     protected function tearDown(): void
     {
         $purger = new ORMPurger($this->entityManager);
+        $purger->setPurgeMode(ORMPurger::PURGE_MODE_TRUNCATE);
         $purger->purge();
 
         $this->entityManager->close();
