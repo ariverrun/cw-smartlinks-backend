@@ -28,8 +28,6 @@ interface RouteInterface
 
     public function addStep(RoutingStepInterface $step): self;
 
-    public function removeStep(RoutingStepInterface $step): self;
-
     public function isActive(): bool;
 
     public function setIsActive(bool $isActive): self;
