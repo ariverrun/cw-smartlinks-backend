@@ -7,6 +7,7 @@ namespace Tests\Integration\Application\UseCase;
 use App\Application\Dto\GeoDto;
 use App\Application\Dto\HttpRequestDto;
 use App\Application\Exception\MachingRouteIsNotFoundException;
+use App\Application\Exception\RedirectUrlIsInvalidException;
 use App\Application\Service\Detector\GeoIpDetectorInterface;
 use App\Application\UseCase\GetRedirectUrlForHttpRequestUseCase;
 use App\Domain\Entity\Condition;
@@ -361,6 +362,56 @@ final class GetRedirectUrlForHttpRequestUseCaseTest extends KernelTestCase
                 ),
                 'expectedRedirectUrl' => 'r@test.com',
                 'expectedException' => null,
+            ],
+            [
+                'routes' => [
+                    (function(): Route {
+                        $route = (new Route('/test/{foo}/t/{bar}'))
+                                    ->setInitialStep(
+                            (new Redirect())
+                                            ->setSchemeType('redirect')
+                                            ->setSchemeProps(['url' => 'r/{foo}/t/{bar}@test.com'])
+                                    );
+    
+                        $route->getInitialStep()->setRoute($route);         
+                        
+                        return $route;
+                    })(),
+                ],
+                'httpRequestDto' => new HttpRequestDto(
+                    '/test/10/t/20',
+                    'en',
+                    [],
+                    new DateTimeImmutable(),
+                    '252.99.86.106',
+                ),
+                'expectedRedirectUrl' => 'r/10/t/20@test.com',
+                'expectedException' => null,
+            ],
+            [
+                'routes' => [
+                    (function(): Route {
+                        $route = (new Route('/test/{foo}/t/{bar}'))
+                                    ->setInitialStep(
+                            (new Redirect())
+                                            ->setSchemeType('redirect')
+                                            ->setSchemeProps(['url' => 'r/{foo}/t/{xx}@test.com'])
+                                    );
+    
+                        $route->getInitialStep()->setRoute($route);         
+                        
+                        return $route;
+                    })(),
+                ],
+                'httpRequestDto' => new HttpRequestDto(
+                    '/test/10/t/20',
+                    'en',
+                    [],
+                    new DateTimeImmutable(),
+                    '252.99.86.106',
+                ),
+                'expectedRedirectUrl' => null,
+                'expectedException' => RedirectUrlIsInvalidException::class,
             ],
         ];
     }
