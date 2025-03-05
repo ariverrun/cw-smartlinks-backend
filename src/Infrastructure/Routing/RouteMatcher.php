@@ -67,6 +67,10 @@ class RouteMatcher implements RouteMatcherInterface
             }
         }
 
+        if (empty($urlParts)) {
+            return null;
+        }
+
         return $node->getTerminalRouteId();
     }
 }
