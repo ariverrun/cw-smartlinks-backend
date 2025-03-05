@@ -17,6 +17,7 @@ services:
       - cw-smartlinks-backend-network
 
   php:
+    container_name: cw-smartlinks-backend-php
     build:
       context: './../'
       dockerfile: 'docker/php/Dockerfile'
@@ -34,6 +35,17 @@ services:
       test: ["CMD", "php", "-v"]
       timeout: 5s
       retries: 3
+    networks:
+      - default
+      - cw-smartlinks-backend-network
+
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - ../docker/nginx/conf.d:/etc/nginx/conf.d
+      - ..:/var/www/html/
+    depends_on:
+      - php
     networks:
       - default
       - cw-smartlinks-backend-network

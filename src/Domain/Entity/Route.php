@@ -84,14 +84,6 @@ final class Route implements RouteInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, RoutingStepInterface>
-     */
-    public function getSteps(): Collection
-    {
-        return $this->steps;
-    }
-
     public function addStep(RoutingStepInterface $step): self
     {
         if (!$this->steps->contains($step)) {
