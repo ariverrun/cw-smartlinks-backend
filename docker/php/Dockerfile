@@ -34,4 +34,6 @@ USER "${USER_ID}:${GROUP_ID}"
 
 USER www-data
 
-CMD ["php", "-S", "0.0.0.0:8000", "public/index.php"]
+EXPOSE 9000
+
+CMD ["php-fpm"]

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
-use Doctrine\Common\Collections\Collection;
-
 interface RouteInterface
 {
     public function getId(): ?int;
@@ -20,11 +18,6 @@ interface RouteInterface
     public function getInitialStep(): RoutingStepInterface;
 
     public function setInitialStep(RoutingStepInterface $initialStep): self;
-
-    /**
-     * @return Collection<int, RoutingStepInterface>
-     */
-    public function getSteps(): Collection;
 
     public function addStep(RoutingStepInterface $step): self;
 

@@ -42,6 +42,12 @@ dc_enter_php: #enter php container
 dc_logs_php: #show php container logs
 	${DOCKER_COMPOSE} logs php
 
+dc_enter_nginx: #enter nginx container
+	${DOCKER_COMPOSE} exec nginx bash
+
+dc_logs_nginx: #show nginx container logs
+	${DOCKER_COMPOSE} logs nginx
+
 ##################
 ## Migrations
 ##################
@@ -102,7 +108,7 @@ yamllint:
 ##################
 
 phpstan:
-	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src tests
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpstan analyse src tests --memory-limit=1G
 
 
 ##################
