@@ -46,16 +46,6 @@ class RoutingStep implements RoutingStepInterface
     {
     }
 
-    final public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    final public function getRoute(): ?RouteInterface
-    {
-        return $this->route;
-    }
-
     final public function setRoute(?RouteInterface $route): static
     {
         $this->route = $route;

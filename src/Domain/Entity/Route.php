@@ -102,17 +102,6 @@ final class Route implements RouteInterface
         return $this;
     }
 
-    public function removeStep(RoutingStepInterface $step): self
-    {
-        if ($this->steps->removeElement($step)) {
-            if ($step->getRoute() === $this) {
-                $step->setRoute(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function isActive(): bool
     {
         return $this->isActive;

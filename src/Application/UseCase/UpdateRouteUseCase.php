@@ -33,9 +33,13 @@ final class UpdateRouteUseCase implements UpdateRouteUseCaseInterface
             throw new DuplicateRouteUrlPatternException();
         }
 
-        $route->setInitialStep(
-            $this->routingStepFactory->createRoutingStep($dto->initialStep, $route),
-        );
+        $route
+            ->setUrlPattern($dto->urlPattern)
+            ->setPriority($dto->priority)
+            ->setIsActive($dto->isActive)
+            ->setInitialStep(
+                $this->routingStepFactory->createRoutingStep($dto->initialStep, $route),
+            );
 
         $this->routeRepository->save($route);
     }

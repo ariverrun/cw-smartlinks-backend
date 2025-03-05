@@ -31,7 +31,5 @@ interface RoutingStepInterface
      */
     public function setSchemeProps(array $schemeProps): RoutingStepInterface;
 
-    public function getRoute(): ?RouteInterface;
-
     public function setRoute(?RouteInterface $route): RoutingStepInterface;
 }
