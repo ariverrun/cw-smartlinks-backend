@@ -127,9 +127,6 @@ tests_coverage_html:
 tests_coverage_text:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-text
 
-tests_unit:
-	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Unit
-
 tests_init:
 	${DOCKER_COMPOSE_PHP_EXEC} composer install -n
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console cache:clear --env=test
@@ -137,5 +134,11 @@ tests_init:
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:database:create --env=test -n
 	${DOCKER_COMPOSE_PHP_EXEC} bin/console doctrine:migrations:migrate --env=test --quiet -n
 
+tests_unit:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Unit
+
 tests_integration:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Integration
+
+tests_functional:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests/Functional
