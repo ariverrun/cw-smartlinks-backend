@@ -24,8 +24,16 @@ final class RedirectStrategy extends RoutingStepStrategy
         HttpRequestDto $httpRequestDto,
         RedirectionContextInterface $context,
     ): RoutingStepHandlerResultInterface {
+        $redirectUrl = preg_replace_callback('/\{(\w+)\}/', function ($matches) use ($context): string {
+            $requestPathParam = $matches[1];
+
+            return (string)($context->hasParameter($requestPathParam) ?
+                        $context->getParameter($requestPathParam) :
+                        $matches[0]);
+        }, $routingStepScheme->url);
+
         return new RoutingStepHandlerResult(
-            redirectUrl: $routingStepScheme->url,
+            redirectUrl: $redirectUrl,
         );
     }
 

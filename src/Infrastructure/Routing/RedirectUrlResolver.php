@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Infrastructure\Routing;
 
 use App\Application\Dto\HttpRequestDto;
+use App\Application\Exception\RedirectUrlIsInvalidException;
 use App\Application\Exception\RedirectUrlIsNotResolvedException;
 use App\Application\Service\Handler\RoutingStepHandlerInterface;
 use App\Application\Service\Routing\RedirectUrlResolverInterface;
+use App\Application\Service\Routing\RequestUrlParamsExtractorInterface;
 use App\Domain\Repository\RouteRepositoryInterface;
 use RuntimeException;
 
@@ -16,6 +18,7 @@ class RedirectUrlResolver implements RedirectUrlResolverInterface
     public function __construct(
         private readonly RouteRepositoryInterface $routeRepository,
         private readonly RoutingStepHandlerInterface $routingStepHandler,
+        private readonly RequestUrlParamsExtractorInterface $requestUrlParamsExtractor,
     ) {
     }
 
@@ -27,7 +30,12 @@ class RedirectUrlResolver implements RedirectUrlResolverInterface
             throw new RuntimeException();
         }
 
-        $context = new RedirectionContext();
+        $requestPathParams = $this->requestUrlParamsExtractor->extractParams(
+            $httpRequestDto->requestPath,
+            $route->getUrlPattern()
+        );
+
+        $context = new RedirectionContext($requestPathParams);
 
         $routingStep = $route->getInitialStep();
 
@@ -46,6 +54,10 @@ class RedirectUrlResolver implements RedirectUrlResolverInterface
 
         if (null === $redirectUrl) {
             throw new RedirectUrlIsNotResolvedException();
+        }
+
+        if (str_contains($redirectUrl, '{') || str_contains($redirectUrl, '}')) {
+            throw new RedirectUrlIsInvalidException();
         }
 
         return $redirectUrl;
