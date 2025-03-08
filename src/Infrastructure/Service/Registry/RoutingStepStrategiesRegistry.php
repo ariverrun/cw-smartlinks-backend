@@ -7,29 +7,25 @@ namespace App\Infrastructure\Service\Registry;
 use App\Application\Exception\RoutingStepStrategyIsNotFoundException;
 use App\Application\Service\Registry\RoutingStepStrategiesRegistryInterface;
 use App\Application\Service\Strategy\RoutingStepStrategyInterface;
-use InvalidArgumentException;
 
 class RoutingStepStrategiesRegistry implements RoutingStepStrategiesRegistryInterface
 {
     /**
-     * @param array<string,RoutingStepStrategyInterface> $strategiesByAlias
+     * @var array<string,RoutingStepStrategyInterface>
      */
-    public function __construct(
-        private readonly array $strategiesByAlias,
-    ) {
-        foreach ($strategiesByAlias as $strategy) {
-            if (!$strategy instanceof RoutingStepStrategyInterface) {
-                throw new InvalidArgumentException();
-            }
-        }
-    }
+    private array $routingStepStrategiesByAlias = [];
 
     public function getStrategyByAlias(string $alias): RoutingStepStrategyInterface
     {
-        if (!isset($this->strategiesByAlias[$alias])) {
+        if (!isset($this->routingStepStrategiesByAlias[$alias])) {
             throw new RoutingStepStrategyIsNotFoundException();
         }
 
-        return $this->strategiesByAlias[$alias];
+        return $this->routingStepStrategiesByAlias[$alias];
+    }
+
+    public function addStrategy(string $indexKey, RoutingStepStrategyInterface $routingStepStrategy): void
+    {
+        $this->routingStepStrategiesByAlias[$indexKey] = $routingStepStrategy;
     }
 }

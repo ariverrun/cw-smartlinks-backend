@@ -18,6 +18,8 @@ final class RoutingStepStrategiesRegistryTest extends TestCase
 
         $aliases = ['a', 'b', 'c'];
 
+        $registry = new RoutingStepStrategiesRegistry();
+
         foreach ($aliases as $alias) {
             $strategyMock = $this->getMockBuilder(RoutingStepStrategyInterface::class)
                             /**
@@ -26,9 +28,8 @@ final class RoutingStepStrategiesRegistryTest extends TestCase
                             ->setMockClassName('Mock_RoutingStepStrategyInterface_'.$alias . __LINE__)
                             ->getMock();
             $strategiesByAlias[$alias] = $strategyMock;
+            $registry->addStrategy($alias, $strategyMock);
         }
-
-        $registry = new RoutingStepStrategiesRegistry($strategiesByAlias);
 
         foreach ($strategiesByAlias as $alias => $strategy) {
             $foundStrategy = $registry->getStrategyByAlias($alias);
@@ -37,27 +38,13 @@ final class RoutingStepStrategiesRegistryTest extends TestCase
         }
     }
 
-    public function testThatsThrowsExceptionOnInvalidStrategiesProvided(): void
-    {
-        /**
-         * @var array<string,RoutingStepStrategyInterface | object> $strategiesByAlias
-         */
-        $strategiesByAlias = [
-            'a' => $this->createMock(RoutingStepStrategyInterface::class),
-            'b' => new class() {},
-            'c' => $this->createMock(RoutingStepStrategyInterface::class),
-        ];
-
-        $this->expectException(InvalidArgumentException::class);
-
-        new RoutingStepStrategiesRegistry($strategiesByAlias);
-    }
-
     public function testThatThrowsExceptionOnUnknownAlias(): void
     {
         $strategiesByAlias = [];
 
         $aliases = ['a', 'b', 'c'];
+
+        $registry = new RoutingStepStrategiesRegistry();
 
         foreach ($aliases as $alias) {
             $strategyMock = $this->getMockBuilder(RoutingStepStrategyInterface::class)
@@ -67,9 +54,9 @@ final class RoutingStepStrategiesRegistryTest extends TestCase
                             ->setMockClassName('Mock_RoutingStepStrategyInterface_'.$alias . __LINE__)
                             ->getMock();
             $strategiesByAlias[$alias] = $strategyMock;
-        }
 
-        $registry = new RoutingStepStrategiesRegistry($strategiesByAlias);
+            $registry->addStrategy($alias, $strategyMock);
+        }
         
         $this->expectException(RoutingStepStrategyIsNotFoundException::class);
 

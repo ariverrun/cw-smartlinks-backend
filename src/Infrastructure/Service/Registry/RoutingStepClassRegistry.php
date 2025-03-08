@@ -14,37 +14,37 @@ class RoutingStepClassRegistry implements RoutingStepClassRegistryInterface
     /**
      * @var array<string,string>
      */
-    private readonly array $aliasesByClass;
+    private readonly array $aliasesByRoutingStepClass;
 
     /**
-     * @param array<string,string> $classesByAlias
+     * @param array<string,string> $routingStepClassesByAlias
      */
     public function __construct(
-        private readonly array $classesByAlias,
+        private readonly array $routingStepClassesByAlias,
     ) {
-        foreach ($classesByAlias as $class) {
+        foreach ($routingStepClassesByAlias as $class) {
             if (!\is_subclass_of($class, RoutingStepInterface::class)) {
                 throw new InvalidArgumentException();
             }
         }
-        $this->aliasesByClass = \array_flip($classesByAlias);
+        $this->aliasesByRoutingStepClass = \array_flip($routingStepClassesByAlias);
     }
 
     public function getRoutingStepClassByAlias(string $alias): string
     {
-        if (!isset($this->classesByAlias[$alias])) {
+        if (!isset($this->routingStepClassesByAlias[$alias])) {
             throw new UnknowRoutingStepTypeException();
         }
 
-        return $this->classesByAlias[$alias];
+        return $this->routingStepClassesByAlias[$alias];
     }
 
     public function getAliasForRoutingStepClass(string $class): string
     {
-        if (!isset($this->aliasesByClass[$class])) {
+        if (!isset($this->aliasesByRoutingStepClass[$class])) {
             throw new UnknowRoutingStepTypeException();
         }
 
-        return $this->aliasesByClass[$class];
+        return $this->aliasesByRoutingStepClass[$class];
     }
 }

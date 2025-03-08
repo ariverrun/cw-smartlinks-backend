@@ -12,12 +12,12 @@ use InvalidArgumentException;
 class RoutingStepSchemeClassRegistry implements RoutingStepSchemeClassRegistryInterface
 {
     /**
-     * @param array<string,string> $classesByAlias
+     * @param array<string,string> $routeStepSchemeClassesByAliases
      */
     public function __construct(
-        private readonly array $classesByAlias,
+        private readonly array $routeStepSchemeClassesByAliases,
     ) {
-        foreach ($classesByAlias as $class) {
+        foreach ($routeStepSchemeClassesByAliases as $class) {
             if (!\is_subclass_of($class, RoutingStepSchemeInterface::class)) {
                 throw new InvalidArgumentException();
             }
@@ -26,10 +26,10 @@ class RoutingStepSchemeClassRegistry implements RoutingStepSchemeClassRegistryIn
 
     public function getRoutingStepSchemeClassByAlias(string $alias): string
     {
-        if (!isset($this->classesByAlias[$alias])) {
+        if (!isset($this->routeStepSchemeClassesByAliases[$alias])) {
             throw new UnknownRoutingStepSchemeException();
         }
 
-        return $this->classesByAlias[$alias];
+        return $this->routeStepSchemeClassesByAliases[$alias];
     }
 }

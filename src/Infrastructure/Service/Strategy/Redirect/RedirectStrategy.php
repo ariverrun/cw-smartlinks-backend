@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\Strategy\Redirect;
 
+use App\Application\Attribute\SupportedRoutingStepScheme;
 use App\Application\Dto\HttpRequestDto;
 use App\Application\Scheme\RoutingStepSchemeInterface;
 use App\Application\Scheme\Redirect\RedirectScheme;
@@ -13,6 +14,7 @@ use App\Domain\Entity\RoutingStepInterface;
 use App\Infrastructure\Service\Handler\RoutingStepHandlerResult;
 use App\Infrastructure\Service\Strategy\RoutingStepStrategy;
 
+#[SupportedRoutingStepScheme(class: RedirectScheme::class)]
 final class RedirectStrategy extends RoutingStepStrategy
 {
     /**

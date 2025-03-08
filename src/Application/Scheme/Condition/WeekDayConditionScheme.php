@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Scheme\Condition;
 
+use App\Application\Attribute\RoutingStepScheme;
 use App\Application\Scheme\RoutingStepSchemeInterface;
+use App\Domain\Enum\RoutingStepType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class WeekDayConditionScheme implements RoutingStepSchemeInterface
+#[RoutingStepScheme(type: RoutingStepType::CONDITION->value, alias: 'week_day')]
+final class WeekDayConditionScheme implements RoutingStepSchemeInterface
 {
     /**
      * @var int[]
