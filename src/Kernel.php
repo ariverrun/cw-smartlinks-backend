@@ -16,6 +16,8 @@ use Symfony\Component\ErrorHandler\DebugClassLoader;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use ReflectionClass;
 use Throwable;
 
@@ -32,9 +34,9 @@ class Kernel extends BaseKernel
 
     public function reboot(?string $warmupDir): void
     {
-        parent::reboot($warmupDir);
-
         $this->warmupDir = $warmupDir;
+
+        parent::reboot($warmupDir);
     }
 
     protected function build(ContainerBuilder $container): void
@@ -69,11 +71,17 @@ class Kernel extends BaseKernel
 
         $cachePath = $cache->getPath();
 
+        $pluginsDirLastModified = $this->getPluginsDirLastModifiedTime();
+
+        $pluginsDirLastModifiedFilePath = $buildDir . '/plugins_dir_last_modified';
+
+        $prevPluginsDirLastModified = file_exists($pluginsDirLastModifiedFilePath) ? (int)file_get_contents($pluginsDirLastModifiedFilePath) : 0;
+
         $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
 
         try {
             if (is_file($cachePath) && \is_object($this->container = include $cachePath)
-                && (!$this->debug || (self::$freshCache[$cachePath] ?? $cache->isFresh()))
+                && (!$this->debug || (self::$freshCache[$cachePath] ?? $cache->isFresh())) && $pluginsDirLastModified <= $prevPluginsDirLastModified
             ) {
                 self::$freshCache[$cachePath] = true;
                 $this->container->set('kernel', $this);
@@ -83,6 +91,8 @@ class Kernel extends BaseKernel
             }
         } catch (Throwable $e) {
         }
+
+        file_put_contents($pluginsDirLastModifiedFilePath, $pluginsDirLastModified);
 
         $oldContainer = \is_object($this->container) ? new ReflectionClass($this->container) : $this->container = null;
 
@@ -217,5 +227,34 @@ class Kernel extends BaseKernel
         if ($preload && file_exists($preloadFile = $buildDir . '/' . $class . '.preload.php')) {
             Preloader::append($preloadFile, $preload);
         }
+    }
+
+    private function getPluginsDirLastModifiedTime(): int
+    {
+        $lastModified = filemtime($this->getPluginsDir());
+
+        $directory = $this->getPluginsDir();
+
+        if (is_dir($directory)) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($iterator as $file) {
+                $fileModified = $file->getMTime();
+
+                if ($fileModified > $lastModified) {
+                    $lastModified = $fileModified;
+                }
+            }
+        }
+
+        return $lastModified;
+    }
+
+    private function getPluginsDir(): string
+    {
+        return $this->getProjectDir() . '/plugin';
     }
 }
