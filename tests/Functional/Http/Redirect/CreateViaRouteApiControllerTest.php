@@ -7,7 +7,7 @@ namespace Tests\Functional\Http\Redirect;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-final class RouteApiControllerTest extends WebTestCase
+final class CreateViaRouteApiControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 

@@ -31,7 +31,7 @@ final class RouteApiController extends AbstractController
             'id' => ($useCase)(
                 $this->autoMapper->map($requestDto, RouteDto::class)
             ),
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
     #[Route('/api/v1/route/{routeId}', methods: ['PUT'], name: 'app_api_route_update')]
