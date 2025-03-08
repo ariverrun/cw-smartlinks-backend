@@ -21,6 +21,7 @@ use RecursiveIteratorIterator;
 use ReflectionClass;
 use Throwable;
 
+/** @codeCoverageIgnore */
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
