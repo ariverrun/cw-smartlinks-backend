@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\Strategy\Condition;
 
+use App\Application\Attribute\SupportedRoutingStepScheme;
 use App\Application\Dto\HttpRequestDto;
 use App\Application\Scheme\Condition\CountryConditionScheme;
 use App\Application\Scheme\RoutingStepSchemeInterface;
@@ -14,6 +15,7 @@ use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Infrastructure\Service\Strategy\ConditionCheckerStrategy;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
+#[SupportedRoutingStepScheme(class: CountryConditionScheme::class)]
 final class CountryCheckerStrategy extends ConditionCheckerStrategy
 {
     public function __construct(

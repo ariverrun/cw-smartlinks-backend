@@ -19,29 +19,16 @@ services:
             - '../src/Domain/Entity/'
             - '../src/Kernel.php'
 
+    Plugin\:
+        resource: '../plugin/'
+
     App\Infrastructure\Service\Registry\RoutingStepClassRegistry:
         arguments:
-            $classesByAlias:
-                redirect: App\Domain\Entity\Redirect
-                condition: App\Domain\Entity\Condition
+            $routingStepClassesByAlias: '%routing_step_classes_by_alias%'
 
     App\Infrastructure\Service\Registry\RoutingStepSchemeClassRegistry:
         arguments:
-            $classesByAlias:
-                redirect.redirect: 'App\Application\Scheme\Redirect\RedirectScheme'
-                condition.datetime_range: 'App\Application\Scheme\Condition\DateTimeRangeConditionScheme'
-                condition.week_day: 'App\Application\Scheme\Condition\WeekDayConditionScheme'
-                condition.locale: 'App\Application\Scheme\Condition\LocaleConditionScheme'
-                condition.country: 'App\Application\Scheme\Condition\CountryConditionScheme'
-
-    App\Infrastructure\Service\Registry\RoutingStepStrategiesRegistry:
-        arguments:
-            $strategiesByAlias:
-                redirect.redirect: '@App\Infrastructure\Service\Strategy\Redirect\RedirectStrategy'
-                condition.datetime_range: '@App\Infrastructure\Service\Strategy\Condition\DateTimeRangeCheckerStrategy'
-                condition.week_day: '@App\Infrastructure\Service\Strategy\Condition\WeekDayCheckerStrategy'
-                condition.locale: '@App\Infrastructure\Service\Strategy\Condition\LocaleCheckerStrategy'
-                condition.country: '@App\Infrastructure\Service\Strategy\Condition\CountryCheckerStrategy'
+            $routeStepSchemeClassesByAliases: '%routing_step_scheme_classes_by_aliases%'
 
     app.auto_mapper.with_validation:
         class: App\Infrastructure\Mapper\ValidatingAutoMapperDecorator

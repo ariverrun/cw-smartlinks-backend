@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Service\Strategy\Condition;
 
+use App\Application\Attribute\SupportedRoutingStepScheme;
 use App\Application\Dto\HttpRequestDto;
 use App\Application\Scheme\Condition\WeekDayConditionScheme;
 use App\Application\Scheme\RoutingStepSchemeInterface;
 use App\Application\Service\Routing\RedirectionContextInterface;
 use App\Infrastructure\Service\Strategy\ConditionCheckerStrategy;
 
+#[SupportedRoutingStepScheme(class: WeekDayConditionScheme::class)]
 final class WeekDayCheckerStrategy extends ConditionCheckerStrategy
 {
     /**

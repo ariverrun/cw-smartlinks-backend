@@ -21,3 +21,8 @@
 .phpunit.result.cache
 /coverage
 ###< phpunit/phpunit ###
+
+###> plugins ###
+/plugin/*
+!/plugin/README.md
+###< plugins ###
