@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 use Attribute;
 
 #[Attribute]
-final class ContainsRoutingStepScheme extends Constraint
+class ContainsRoutingStepScheme extends Constraint
 {
     public string $message = 'Unknown scheme `{{ scheme_type }}` for type `{{ type }}` or unknown type.';
 }
