@@ -6,7 +6,7 @@ namespace App\Application\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class RoutingStepNestedDto
+readonly class RoutingStepNestedDto
 {
     /**
      * @param array<string,mixed> $schemeProps

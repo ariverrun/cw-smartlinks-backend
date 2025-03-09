@@ -124,8 +124,8 @@ tests_coverage_xml:
 tests_coverage_html:
 	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-html coverage/
 
-tests_coverage_text:
-	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-text
+tests_coverage_text_summary:
+	${DOCKER_COMPOSE_PHP_EXEC} vendor/bin/phpunit tests --coverage-text  --only-summary-for-coverage-text
 
 tests_init:
 	${DOCKER_COMPOSE_PHP_EXEC} composer install -n

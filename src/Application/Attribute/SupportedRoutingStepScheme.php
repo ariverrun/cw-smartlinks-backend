@@ -6,6 +6,7 @@ namespace App\Application\Attribute;
 
 use Attribute;
 
+/** @codeCoverageIgnore */
 #[Attribute(Attribute::TARGET_CLASS)]
 final class SupportedRoutingStepScheme
 {
