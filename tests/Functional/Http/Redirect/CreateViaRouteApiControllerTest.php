@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Http\Redirect;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CreateViaRouteApiControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
+    private string $validJwt;
 
     public function testInvalidRequestData(): void
     {
@@ -20,7 +23,9 @@ final class CreateViaRouteApiControllerTest extends WebTestCase
             'initialStep' => null,
         ];
     
-        $this->client->jsonRequest('POST', '/api/v1/route', $requestData);
+        $this->client->jsonRequest('POST', '/api/v1/route', $requestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(422);
     }
@@ -54,7 +59,9 @@ final class CreateViaRouteApiControllerTest extends WebTestCase
             ],
         ];
     
-        $this->client->jsonRequest('POST', '/api/v1/route', $requestData);
+        $this->client->jsonRequest('POST', '/api/v1/route', $requestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(422);
     }
@@ -89,7 +96,9 @@ final class CreateViaRouteApiControllerTest extends WebTestCase
             ],
         ];
     
-        $this->client->jsonRequest('POST', '/api/v1/route', $requestData);
+        $this->client->jsonRequest('POST', '/api/v1/route', $requestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(422);
     }
@@ -98,5 +107,15 @@ final class CreateViaRouteApiControllerTest extends WebTestCase
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
+
+        $userMock = $this->createMock(UserInterface::class);
+
+        $userMock->expects($this->any())
+                    ->method('getUserIdentifier')
+                    ->willReturn('tgrtgr');
+        
+        $jwtTokenManager = $this->getContainer()->get(JWTTokenManagerInterface::class);
+
+        $this->validJwt = $jwtTokenManager->create($userMock);        
     }    
 }

@@ -6,12 +6,15 @@ namespace Tests\Functional;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class ApplicationFullTest extends WebTestCase
 {
     private KernelBrowser $client;
+    private string $validJwt;
     
     public function testCreateRouteAndRedirect(): void
     {
@@ -43,7 +46,9 @@ final class ApplicationFullTest extends WebTestCase
             ],
         ];
 
-        $this->client->jsonRequest('POST', '/api/v1/route', $createRouteRequestData);
+        $this->client->jsonRequest('POST', '/api/v1/route', $createRouteRequestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(201);
 
@@ -86,7 +91,9 @@ final class ApplicationFullTest extends WebTestCase
             ],
         ];
 
-        $this->client->jsonRequest('POST', '/api/v1/route', $createRouteRequestData);
+        $this->client->jsonRequest('POST', '/api/v1/route', $createRouteRequestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJson($this->client->getResponse()->getContent());
@@ -128,7 +135,9 @@ final class ApplicationFullTest extends WebTestCase
             ],
         ];
 
-        $this->client->jsonRequest('PUT', '/api/v1/route/' . $routeId, $updateRouteRequestData);
+        $this->client->jsonRequest('PUT', '/api/v1/route/' . $routeId, $updateRouteRequestData, [
+            'HTTP_Authorization' => 'Bearer ' . $this->validJwt,
+        ]);
 
         $this->assertResponseStatusCodeSame(200);
     }
@@ -137,6 +146,16 @@ final class ApplicationFullTest extends WebTestCase
     {
         self::ensureKernelShutdown();
         $this->client = static::createClient();
+
+        $userMock = $this->createMock(UserInterface::class);
+
+        $userMock->expects($this->any())
+                    ->method('getUserIdentifier')
+                    ->willReturn('tgrtgr');
+        
+        $jwtTokenManager = $this->getContainer()->get(JWTTokenManagerInterface::class);
+
+        $this->validJwt = $jwtTokenManager->create($userMock);                
     }
 
     protected function tearDown(): void

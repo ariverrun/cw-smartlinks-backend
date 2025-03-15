@@ -1,0 +1,17 @@
+security:
+    providers:
+        api_user_provider:
+            id: App\Infrastructure\Security\ApiUserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+    access_control:
+        - { path: ^/api, roles: ROLE_USER }

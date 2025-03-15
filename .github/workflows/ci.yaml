@@ -59,6 +59,9 @@ jobs:
       - name: Install dependencies via Composer
         run: COMPOSER_NO_DEV=0 composer install
 
+      - name: Create JWT keys
+        run: php bin/console lexik:jwt:generate-keypair --overwrite --env=test
+
       - name: Drop test db if exists
         run: php bin/console doctrine:database:drop --if-exists --env=test --force -n
 
