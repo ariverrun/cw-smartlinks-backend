@@ -26,11 +26,15 @@ final class UpdateRouteUseCase implements UpdateRouteUseCaseInterface
             throw new RouteIsNotFoundException();
         }
 
-        if (
-            $route->getUrlPattern() !== $dto->urlPattern
-            && $route->getId() !== $this->routeRepository->findOneByUrlPattern($dto->urlPattern)?->getId()
-        ) {
-            throw new DuplicateRouteUrlPatternException();
+        if ($route->getUrlPattern() !== $dto->urlPattern) {
+            $sameUrlPattern = $this->routeRepository->findOneByUrlPattern($dto->urlPattern);
+
+            if (
+                null !== $sameUrlPattern
+                && $route->getId() !== $sameUrlPattern->getId()
+            ) {
+                throw new DuplicateRouteUrlPatternException();
+            }
         }
 
         $route
